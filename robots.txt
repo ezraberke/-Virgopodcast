@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.virgopodcast.com/sitemap.xml
