@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { RevealObserver } from "./reveal-observer";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.virgopodcast.com"),
@@ -20,7 +21,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <RevealObserver />
+        {children}
+      </body>
     </html>
   );
 }

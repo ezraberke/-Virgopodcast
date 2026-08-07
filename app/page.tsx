@@ -3,23 +3,23 @@ import { Footer, Header } from "./site-chrome";
 const services = [
   {
     number: "01",
-    title: "Podcast & video recording",
-    copy: "Producer-supported sessions with professional sound, two-camera video, studio lighting and room for a remote guest.",
+    title: "Record",
+    copy: "Professional cameras, broadcast microphones, studio lighting and an on-site producer in a room that feels natural on camera.",
   },
   {
     number: "02",
-    title: "Professional editing",
-    copy: "Audio cleanup, thoughtful camera switching, color, titles, intros and a finished episode that feels intentional.",
+    title: "Edit",
+    copy: "Clean audio, thoughtful camera switching, color, titles and pacing that turn the session into a polished full episode.",
   },
   {
     number: "03",
-    title: "Social media cutdowns",
-    copy: "Captioned vertical edits for YouTube Shorts, Reels, TikTok and LinkedIn—built to hold attention from the first frame.",
+    title: "Repurpose",
+    copy: "Hook-led vertical edits for Shorts, Reels, TikTok and LinkedIn—built from the strongest moments in your recording.",
   },
   {
     number: "04",
-    title: "Corporate video",
-    copy: "Interviews, testimonials, training, presentations and internal communications in a calm, professional setting.",
+    title: "Reach real viewers",
+    copy: "The Creator Starter Kit pairs studio production with hands-on distribution so your first content leaves the folder and reaches an audience.",
   },
 ];
 
@@ -27,10 +27,11 @@ const prices = [
   {
     eyebrow: "Record",
     title: "Studio session",
-    description: "Professional recording with an on-site producer. You leave with the raw footage.",
+    description: "A flat one-hour room rate with professional recording and an on-site producer. You leave with the raw footage.",
     price: "$75",
     note: "one hour",
     rows: ["2 hours — $125", "Half day — $200", "Full day — $350"],
+    href: "/book",
   },
   {
     eyebrow: "Most popular",
@@ -40,14 +41,27 @@ const prices = [
     note: "one hour",
     rows: ["2 hours — $175", "Half day — $250", "Full day — $395"],
     featured: true,
+    href: "/book",
   },
   {
-    eyebrow: "Grow",
-    title: "Episode + social",
-    description: "A polished full episode plus vertical social edits that turn one recording into more content.",
+    eyebrow: "For podcasters",
+    title: "Podcast Starter Kit",
+    description: "A polished full episode plus vertical social edits that turn one recording into a repeatable content pipeline.",
     price: "$160",
     note: "one hour",
     rows: ["2 hours — $250", "Half day — $350", "Full day — $550"],
+    href: "/book",
+    podcast: true,
+  },
+  {
+    eyebrow: "For creators",
+    title: "Creator Starter Kit",
+    description: "Record for one hour, leave the editing to us and launch your content through a VIRGO-managed social distribution plan.",
+    price: "$160",
+    note: "one hour",
+    rows: ["2 hours — $250", "Half day — $350", "Full day — $550"],
+    href: "/book#creator-kit",
+    creator: true,
   },
 ];
 
@@ -59,27 +73,27 @@ export default function Home() {
         <section className="hero" id="top">
           <img
             className="hero-image"
-            src="/assets/studio-hero.webp"
-            alt="VIRGO Podcast Studio recording set with two blue chairs and professional microphones"
+            src="/assets/studio-hero-2026.webp"
+            alt="The updated VIRGO Podcast Studio set with two blue chairs, microphones, wood slat walls and a central screen"
           />
           <div className="hero-shade" />
           <div className="container hero-content">
-            <p className="eyebrow light">Midtown Manhattan · Podcast & video production</p>
-            <h1>Make what you do best<br />look its best.</h1>
+            <p className="eyebrow light">Midtown Manhattan · Record, publish, grow</p>
+            <h1>Share your passion<br />with the world.</h1>
             <p className="hero-copy">
-              Walk in with an idea. Leave with professionally recorded content—and a
-              polished final video in less than 24 hours.
+              Record your idea, turn it into polished content and choose the Creator
+              Starter Kit to put it in front of real viewers—without managing a production team.
             </p>
             <div className="button-row">
-              <a className="button button-primary" href="/work">See our work <span aria-hidden="true">↗</span></a>
-              <a className="button button-ghost" href="tel:+12149036838">Free consultation <span aria-hidden="true">→</span></a>
+              <a className="button button-primary" href="/book#creator-kit">Explore the Creator Kit <span aria-hidden="true">→</span></a>
+              <a className="button button-ghost" href="/work">Watch our work <span aria-hidden="true">↗</span></a>
             </div>
           </div>
           <div className="container proof-strip" aria-label="Studio highlights">
+            <div><strong>$75</strong><span>one-hour room rate</span></div>
             <div><strong>&lt;24 hr</strong><span>edited delivery</span></div>
-            <div><strong>2 cameras</strong><span>professional coverage</span></div>
-            <div><strong>On site</strong><span>producer included</span></div>
-            <div><strong>Free</strong><span>phone consultation</span></div>
+            <div><strong>3 cameras</strong><span>professional coverage</span></div>
+            <div><strong>Midtown</strong><span>producer included</span></div>
           </div>
         </section>
 
@@ -88,33 +102,23 @@ export default function Home() {
             <div className="section-heading split-heading">
               <div>
                 <p className="eyebrow">Selected work</p>
-                <h2>See what care looks like.</h2>
+                <h2>Made to hold attention.</h2>
               </div>
               <p>
-                From long-form conversations to focused lessons and sharp social cutdowns,
-                every edit is shaped around the story—not a template.
+                We build the full episode and the moments that travel: clean sound,
+                considered pacing, supporting visuals and vertical edits that feel native to the feed.
               </p>
             </div>
-            <div className="project-grid">
-              <a className="project-card project-card-wide" href="/work#nba-redraft">
-                <div className="project-image-wrap">
-                  <img src="/posters/nba-redraft.jpg" alt="2025 NBA Redraft podcast thumbnail" />
-                  <span className="play-disc" aria-hidden="true">▶</span>
-                </div>
-                <div className="project-meta">
-                  <div><span>Sports podcast</span><h3>2025 NBA Redraft</h3></div>
-                  <p>Multi-camera edit · audio polish · graphics · 45 min</p>
-                </div>
+            <div className="project-grid project-grid-reels project-grid-text">
+              <a className="project-text-card" href="/work#buzelis-reel">
+                <span className="project-index">01</span>
+                <div><p>Sports analysis</p><h3>Matas Buzelis: shooting &amp; versatility</h3><small>Vertical edit · data graphics · captions</small></div>
+                <span className="project-arrow" aria-hidden="true">↗</span>
               </a>
-              <a className="project-card" href="/work#bible-lesson">
-                <div className="project-image-wrap project-image-scripture">
-                  <img src="/posters/bible-lesson.jpg" alt="Genesis 18 scripture used in Lessons in Bible number 3" />
-                  <span className="play-disc" aria-hidden="true">▶</span>
-                </div>
-                <div className="project-meta">
-                  <div><span>Educational video</span><h3>Lessons in Bible #3</h3></div>
-                  <p>Screen-led lesson · cleanup · pacing · 16 min</p>
-                </div>
+              <a className="project-text-card" href="/work#ai-reel">
+                <span className="project-index">02</span>
+                <div><p>Technology podcast</p><h3>AI Enters the Physical World</h3><small>Vertical edit · supporting visuals · captions</small></div>
+                <span className="project-arrow" aria-hidden="true">↗</span>
               </a>
             </div>
             <div className="centered-action">
@@ -126,7 +130,7 @@ export default function Home() {
         <section className="section studio-story" id="studio">
           <div className="container two-column">
             <div className="image-stack">
-              <img className="image-main" src="/assets/behind-scenes.webp" alt="Cameras and lighting behind the scenes at VIRGO Podcast Studio" />
+              <img className="image-main image-main-landscape" src="/assets/studio-camera-bts-2026.webp" alt="Sony camera set up to record the updated VIRGO Podcast Studio" />
               <div className="image-note"><span>1345</span>Avenue of the Americas<br />2nd Floor</div>
             </div>
             <div className="story-copy">
@@ -134,15 +138,15 @@ export default function Home() {
               <h2>Comfortable in the room. Confident on camera.</h2>
               <p className="lead">
                 VIRGO is a calm Midtown recording room—not a cold soundstage. Settle into
-                the conversation while your producer handles the technical details.
+                the conversation while your producer handles the cameras, sound and lighting.
               </p>
               <ul className="check-list">
-                <li>Two-camera podcast and interview recording</li>
+                <li>Three-camera podcast and interview recording</li>
                 <li>Broadcast microphones and multitrack audio</li>
                 <li>Studio lighting and live production support</li>
-                <li>Up to two in-studio speakers plus a remote guest</li>
+                <li>Remote guest capability</li>
               </ul>
-              <a className="text-link" href="tel:+12149036838">Talk through your idea <span aria-hidden="true">→</span></a>
+              <a className="text-link" href="/book">See available sessions <span aria-hidden="true">→</span></a>
             </div>
           </div>
         </section>
@@ -150,14 +154,14 @@ export default function Home() {
         <section className="section process-section">
           <div className="container">
             <div className="section-heading">
-              <p className="eyebrow light">A smoother way to publish</p>
-              <h2 className="light">One studio. One team.<br />One finished story.</h2>
+              <p className="eyebrow light">One recording, a complete content system</p>
+              <h2 className="light">From idea to audience.</h2>
             </div>
             <div className="process-grid">
-              <article><span>01</span><h3>Plan</h3><p>Start with a free call to shape the format, look and deliverables.</p></article>
-              <article><span>02</span><h3>Record</h3><p>Arrive, get comfortable and let an on-site producer run the room.</p></article>
-              <article><span>03</span><h3>Polish</h3><p>We clean the sound, refine the pacing, switch cameras and finish the visual story.</p></article>
-              <article><span>04</span><h3>Publish</h3><p>Receive ready-to-upload files in less than 24 hours for in-studio recordings.</p></article>
+              <article><span>01</span><h3>Plan</h3><p>Choose the right format, package and deliverables for the idea.</p></article>
+              <article><span>02</span><h3>Record</h3><p>Walk in, get comfortable and let an on-site producer run the room.</p></article>
+              <article><span>03</span><h3>Package</h3><p>We refine the episode and turn its best moments into platform-ready assets.</p></article>
+              <article><span>04</span><h3>Launch</h3><p>Publish it yourself or choose the Creator Kit and let us help get it seen.</p></article>
             </div>
           </div>
         </section>
@@ -165,8 +169,8 @@ export default function Home() {
         <section className="section services-section" id="services">
           <div className="container">
             <div className="section-heading split-heading">
-              <div><p className="eyebrow">Services</p><h2>Everything your content needs.</h2></div>
-              <p>Choose a recording session, a finished episode or a full content package. We can meet you wherever your idea is.</p>
+              <div><p className="eyebrow">A full content system</p><h2>More than a room with cameras.</h2></div>
+              <p>Start with a session or hand us the entire production and distribution workflow. The package can grow with your ambition.</p>
             </div>
             <div className="service-list">
               {services.map((service) => (
@@ -183,7 +187,7 @@ export default function Home() {
         <section className="delivery-banner">
           <div className="container delivery-inner">
             <div>
-              <p className="eyebrow light">Made for momentum</p>
+              <p className="eyebrow light">Built for fast publishing</p>
               <h2>Recorded today.<br />Ready tomorrow.</h2>
             </div>
             <div className="delivery-number"><strong>&lt;24</strong><span>hour delivery for videos<br />recorded in studio</span></div>
@@ -194,34 +198,51 @@ export default function Home() {
           <div className="container">
             <div className="section-heading centered-heading">
               <p className="eyebrow">Straightforward pricing</p>
-              <h2>Choose how finished you want it.</h2>
-              <p>No surprise production maze. Pick a starting point and we’ll tailor the details to your project.</p>
+              <h2>Choose how far you want us to take it.</h2>
+              <p>Book recording time, leave with a finished episode or turn one visit into a complete social launch.</p>
             </div>
-            <div className="pricing-grid">
+            <div className="pricing-grid pricing-grid-four">
               {prices.map((price) => (
-                <article className={price.featured ? "price-card featured" : "price-card"} key={price.title}>
+                <article className={`${price.featured ? "price-card featured" : "price-card"}${price.podcast ? " podcast-kit-card" : ""}${price.creator ? " creator-card" : ""}`} key={price.title}>
                   <p className="price-eyebrow">{price.eyebrow}</p>
                   <h3>{price.title}</h3>
                   <p className="price-description">{price.description}</p>
                   <div className="price"><strong>{price.price}</strong><span>/{price.note}</span></div>
                   <ul>{price.rows.map((row) => <li key={row}>{row}</li>)}</ul>
-                  <a className={price.featured ? "button button-primary full" : "button button-dark full"} href={`mailto:ezraberke@virgopodcast.com?subject=${encodeURIComponent(price.title)}`}>Ask about this package</a>
+                  <a className={price.featured ? "button button-primary full" : "button button-dark full"} href={price.href}>
+                    {price.creator ? "Start the Creator Kit" : price.podcast ? "Book the Podcast Starter Kit" : "Check availability"}
+                  </a>
                 </article>
               ))}
             </div>
-            <p className="pricing-note">Custom backdrops, advanced graphics, extra social clips and specialized corporate productions may require a custom quote.</p>
+            <p className="pricing-note">The Podcast and Creator Starter Kits share the same session rates. Custom backdrops and advanced graphics are quoted separately.</p>
           </div>
         </section>
 
-        <section className="section brand-section" id="backdrops">
+        <section className="section results-section" id="results">
           <div className="container">
-            <div className="section-heading split-heading">
-              <div><p className="eyebrow">Your show, your identity</p><h2>A backdrop that belongs to your brand.</h2></div>
-              <p>Change the tone without changing studios. We can tailor the visual environment to feel warm, executive, modern or distinctly yours.</p>
+            <div className="results-intro">
+              <div>
+                <p className="eyebrow light">Production with proof</p>
+                <h2>Content should do more than look finished.</h2>
+              </div>
+              <p>These are real results from content produced through VIRGO’s workflow—showing what happens when the recording, edit and launch work as one system.</p>
             </div>
-            <div className="backdrop-grid">
-              <figure><img src="/assets/backdrop-executive.webp" alt="Executive wood slat podcast backdrop" /><figcaption><strong>Executive wood slat</strong><span>Warm, polished, corporate-ready</span></figcaption></figure>
-              <figure><img src="/assets/backdrop-moss.webp" alt="Living moss wall podcast backdrop" /><figcaption><strong>Living moss wall</strong><span>Fresh, modern, brand-friendly</span></figcaption></figure>
+            <div className="results-grid">
+              <figure>
+                <img src="/assets/creator-results-views.webp" alt="Analytics showing 3.6 thousand views, 3.4 thousand more than usual" loading="lazy" />
+                <figcaption><strong>3.6K views</strong><span>3.4K more than the channel’s usual performance</span></figcaption>
+              </figure>
+              <figure>
+                <img src="/assets/creator-results-channel.webp" alt="YouTube Studio analytics showing 2.8 thousand views and 156.9 watch hours in 28 days" loading="lazy" />
+                <figcaption><strong>2.8K views · 156.9 hours</strong><span>Real audience growth across a 28-day period</span></figcaption>
+              </figure>
+            </div>
+            <div className="guarantee-card">
+              <p className="eyebrow light">Creator Starter Kit guarantee</p>
+              <h3>100 real viewers—or your money back.</h3>
+              <p>The guarantee applies only to Creator Starter Kit content produced and distributed through VIRGO-managed channels. Final terms are confirmed in the booking agreement.</p>
+              <a className="button button-primary" href="/book#creator-kit">Build your creator launch <span aria-hidden="true">→</span></a>
             </div>
           </div>
         </section>
@@ -233,13 +254,13 @@ export default function Home() {
               <h2>A professional setting in a convenient location.</h2>
               <p>Record at 1345 Avenue of the Americas, 2nd Floor—near Bryant Park, Rockefeller Center, Times Square, Grand Central and major subway lines.</p>
               <div className="button-row">
-                <a className="button button-dark" href="tel:+12149036838">Call (214) 903-6838</a>
-                <a className="button button-outline" href="mailto:ezraberke@virgopodcast.com">Email the studio</a>
+                <a className="button button-dark" href="/book">Book the studio</a>
+                <a className="button button-outline" href="tel:+12149036838">Call (214) 903-6838</a>
               </div>
             </div>
             <div className="location-images">
-              <img src="/assets/building.webp" alt="1345 Avenue of the Americas building exterior" />
-              <img src="/assets/midtown.webp" alt="Midtown Manhattan near VIRGO Podcast Studio" />
+              <img src="/assets/building.webp" alt="1345 Avenue of the Americas building exterior" loading="lazy" />
+              <img src="/assets/midtown.webp" alt="Midtown Manhattan near VIRGO Podcast Studio" loading="lazy" />
             </div>
           </div>
         </section>
@@ -249,9 +270,9 @@ export default function Home() {
             <div><p className="eyebrow">Before you book</p><h2>A few helpful answers.</h2></div>
             <div className="faq-list">
               <details><summary>How fast will I receive my video?</summary><p>Videos recorded in the studio are delivered in less than 24 hours. Larger packages or advanced graphics may need a custom timeline.</p></details>
-              <details><summary>Can a third person join virtually?</summary><p>Yes. We can bring a remote guest into the conversation with clean audio and video.</p></details>
-              <details><summary>Do you create social media clips?</summary><p>Yes. We make captioned vertical edits for YouTube Shorts, Instagram Reels, TikTok and LinkedIn.</p></details>
-              <details><summary>How do I start?</summary><p>Call (214) 903-6838 for a free consultation or email the studio with a quick description of your idea.</p></details>
+              <details><summary>Can a remote guest join?</summary><p>Yes. We can bring a remote guest into the conversation with clean audio and video.</p></details>
+              <details><summary>What is the Creator Starter Kit?</summary><p>It combines a one-hour recording session, finished social content and a managed launch designed to get your work in front of real viewers.</p></details>
+              <details><summary>How does the 100-viewer guarantee work?</summary><p>It applies only to Creator Starter Kit content distributed through VIRGO-managed channels. The exact deliverables and guarantee terms are included in your booking agreement.</p></details>
             </div>
           </div>
         </section>
@@ -259,11 +280,11 @@ export default function Home() {
         <section className="final-cta" id="contact">
           <div className="container final-cta-inner">
             <p className="eyebrow light">Your next video starts here</p>
-            <h2>Bring the idea.<br />We’ll help finish the story.</h2>
-            <p>Free consultations by phone. Tell us what you want to make and we’ll map out the simplest path to a finished video.</p>
+            <h2>Bring the idea.<br />Share it with the world.</h2>
+            <p>Choose a package, see live studio availability and reserve a time directly through the VIRGO booking calendar.</p>
             <div className="button-row centered-buttons">
-              <a className="button button-primary" href="tel:+12149036838">Call (214) 903-6838</a>
-              <a className="button button-ghost" href="mailto:ezraberke@virgopodcast.com?subject=Free%20VIRGO%20Studio%20Consultation">Email the studio</a>
+              <a className="button button-primary" href="/book">Book now</a>
+              <a className="button button-ghost" href="/work">See recent work</a>
             </div>
           </div>
         </section>
