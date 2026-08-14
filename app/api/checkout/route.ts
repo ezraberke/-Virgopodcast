@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { BOOKING_BUFFER_MINUTES, getBookingPackage, HOLD_MINUTES, STUDIO_TIME_ZONE } from "../../../lib/booking-config";
+import { BOOKING_BUFFER_MINUTES, getBookingPackage, HOLD_MINUTES, isPodcastWeekDate, PODCAST_WEEK_PACKAGE_ID, STUDIO_TIME_ZONE } from "../../../lib/booking-config";
 import { getPool } from "../../../lib/db";
 
 export const runtime = "nodejs";
@@ -29,6 +29,9 @@ export async function POST(request: Request) {
   const name = body.customerName?.trim();
   if (!bookingPackage || !start.isValid || !email || !name || !email.includes("@")) {
     return NextResponse.json({ error: "Please complete all required fields." }, { status: 400 });
+  }
+  if (bookingPackage.id === PODCAST_WEEK_PACKAGE_ID && !isPodcastWeekDate(start.toISODate() ?? "")) {
+    return NextResponse.json({ error: "The $10 promotion is available only for sessions from August 14 through August 20, 2026." }, { status: 400 });
   }
   if (start < DateTime.now().setZone(STUDIO_TIME_ZONE).plus({ hours: 2 })) {
     return NextResponse.json({ error: "That time is no longer available." }, { status: 409 });

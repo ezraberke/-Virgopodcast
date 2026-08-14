@@ -50,8 +50,23 @@ const families = [
   },
 ];
 
-export const BOOKING_PACKAGES: BookingPackage[] = families.flatMap((family) =>
-  variants.map((variant, index) => ({
+export const PODCAST_WEEK_PACKAGE_ID = "podcast-week-2026";
+export const PODCAST_WEEK_START = "2026-08-14";
+export const PODCAST_WEEK_END = "2026-08-20";
+
+export const BOOKING_PACKAGES: BookingPackage[] = [
+  {
+    id: PODCAST_WEEK_PACKAGE_ID,
+    family: "August 14–20 only",
+    title: "$10 Start Your Own Podcast Week",
+    durationLabel: "1 hour",
+    durationMinutes: 60,
+    priceCents: 1000,
+    description: "A one-hour professional studio recording session for new clients, including our three-camera setup, broadcast microphones, lighting and on-site support.",
+    featured: true,
+  },
+  ...families.flatMap((family) =>
+    variants.map((variant, index) => ({
     id: `${family.id}-${variant.id}`,
     family: family.family,
     title: family.title,
@@ -60,8 +75,11 @@ export const BOOKING_PACKAGES: BookingPackage[] = families.flatMap((family) =>
     priceCents: family.prices[index],
     description: family.description,
     featured: family.featured,
-  })),
-);
+    })),
+  ),
+];
+
+export const isPodcastWeekDate = (date: string) => date >= PODCAST_WEEK_START && date <= PODCAST_WEEK_END;
 
 export const getBookingPackage = (id: string) =>
   BOOKING_PACKAGES.find((item) => item.id === id);

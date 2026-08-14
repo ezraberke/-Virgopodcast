@@ -78,22 +78,40 @@ export default function Home() {
           />
           <div className="hero-shade" />
           <div className="container hero-content">
-            <p className="eyebrow light">Midtown Manhattan · Record, publish, grow</p>
-            <h1>Share your passion<br />with the world.</h1>
+            <p className="eyebrow light">One week only · August 14–20, 2026</p>
+            <h1><span className="hero-price">$10</span> Start Your Own<br />Podcast Week</h1>
             <p className="hero-copy">
-              Record your idea, turn it into polished content and choose the Creator
-              Starter Kit to put it in front of real viewers—without managing a production team.
+              Use our professional studio to create content, build your personal or
+              business brand, and share your passion with the world.
             </p>
             <div className="button-row">
-              <a className="button button-primary" href="/book#creator-kit">Explore the Creator Kit <span aria-hidden="true">→</span></a>
+              <a className="button button-primary" href="/book?promo=podcast-week#booking-calendar">Book your $10 session <span aria-hidden="true">→</span></a>
               <a className="button button-ghost" href="/work">Watch our work <span aria-hidden="true">↗</span></a>
             </div>
+            <p className="hero-terms">New clients only · One 1-hour promotional recording session per person · Studio and equipment use included; editing is not included · Session must take place August 14–20, 2026 · Limited availability</p>
           </div>
           <div className="container proof-strip" aria-label="Studio highlights">
-            <div><strong>$75</strong><span>one-hour room rate</span></div>
-            <div><strong>&lt;24 hr</strong><span>edited delivery</span></div>
             <div><strong>3 cameras</strong><span>professional coverage</span></div>
-            <div><strong>Midtown</strong><span>producer included</span></div>
+            <div><strong>Broadcast mics</strong><span>multitrack audio</span></div>
+            <div><strong>Studio lighting</strong><span>camera-ready setup</span></div>
+            <div><strong>Midtown</strong><span>on-site producer</span></div>
+          </div>
+        </section>
+
+        <section className="promo-details" id="promotion">
+          <div className="container promo-details-grid">
+            <div><p className="eyebrow">Your idea deserves a microphone</p><h2>Create something<br />worth sharing.</h2></div>
+            <div className="promo-details-copy">
+              <p className="lead">For $10, experience creating a professional podcast in a studio built for great conversations.</p>
+              <ul className="check-list">
+                <li>Use our three-camera setup and broadcast microphones</li>
+                <li>Record with studio lighting, multitrack audio and on-site support</li>
+                <li>Turn your expertise, story or passion into professional content</li>
+                <li>Build visibility for your personal brand, business or big idea</li>
+              </ul>
+              <a className="button button-dark" href="/book?promo=podcast-week#booking-calendar">Claim your $10 session <span aria-hidden="true">→</span></a>
+              <p className="promo-fine-print"><strong>Promotion dates:</strong> Friday, August 14 through Thursday, August 20, 2026. New clients only. One 1-hour promotional recording session per person. Includes studio and listed recording equipment; editing and add-ons are not included. Appointment must take place during the promotional period. Limited availability; advance booking required.</p>
+            </div>
           </div>
         </section>
 

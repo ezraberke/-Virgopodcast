@@ -2,6 +2,13 @@ import Link from "next/link";
 
 export function Header() {
   return (
+    <>
+    <aside className="promo-bar" aria-label="$10 Start Your Own Podcast Week promotion">
+      <div className="container promo-bar-inner">
+        <p><strong>$10 Start Your Own Podcast Week</strong><span>August 14–20, 2026 · Limited sessions</span></p>
+        <Link href="/book?promo=podcast-week#booking-calendar">Book your $10 session <span aria-hidden="true">→</span></Link>
+      </div>
+    </aside>
     <header className="site-header">
       <div className="container header-inner">
         <Link className="brand" href="/" aria-label="VIRGO Podcast Studio home">
@@ -16,9 +23,10 @@ export function Header() {
           <Link href="/#location">Location</Link>
           <Link href="/book">Book</Link>
         </nav>
-        <Link className="header-call" href="/book"><span>View availability</span><strong>Book the studio</strong></Link>
+        <Link className="header-call" href="/book?promo=podcast-week#booking-calendar"><span>Book the promotion</span><strong>$10 studio session</strong></Link>
       </div>
     </header>
+    </>
   );
 }
 

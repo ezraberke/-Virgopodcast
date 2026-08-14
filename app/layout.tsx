@@ -4,12 +4,12 @@ import { RevealObserver } from "./reveal-observer";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.virgopodcast.com"),
-  title: "VIRGO Podcast Studio | Midtown NYC Podcast & Video Production",
-  description: "Professional podcast and video recording, editing and social content in Midtown Manhattan—with less than 24-hour delivery for videos recorded in studio.",
+  title: "$10 Start Your Own Podcast Week | VIRGO Podcast Studio",
+  description: "Book a $10 professional podcast studio session at VIRGO in Midtown Manhattan, August 14–20, 2026. Limited availability for new clients.",
   icons: { icon: "/assets/virgo-logo.png", shortcut: "/assets/virgo-logo.png" },
   openGraph: {
-    title: "VIRGO Podcast Studio",
-    description: "Record today. Receive your polished video in less than 24 hours.",
+    title: "$10 Start Your Own Podcast Week | VIRGO",
+    description: "Create content, build your brand and share your passion in a professional Midtown podcast studio—August 14–20, 2026.",
     url: "https://www.virgopodcast.com",
     siteName: "VIRGO Podcast Studio",
     images: [{ url: "/og.png", width: 1672, height: 941, alt: "VIRGO Podcast Studio with less than 24-hour delivery" }],

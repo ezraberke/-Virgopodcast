@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
-import { BOOKING_PACKAGES, formatPrice } from "../../lib/booking-config";
+import { BOOKING_PACKAGES, formatPrice, PODCAST_WEEK_END, PODCAST_WEEK_PACKAGE_ID } from "../../lib/booking-config";
 
 const dateKey = (date: Date) => {
   const year = date.getFullYear();
@@ -25,9 +25,9 @@ const initialDates = () => {
 export function BookingForm() {
   const [dates] = useState(initialDates);
   const families = [...new Set(BOOKING_PACKAGES.map((item) => item.title))];
-  const [family, setFamily] = useState("Studio session");
+  const [family, setFamily] = useState("$10 Start Your Own Podcast Week");
   const variants = BOOKING_PACKAGES.filter((item) => item.title === family);
-  const [packageId, setPackageId] = useState("studio-session-1-hour");
+  const [packageId, setPackageId] = useState(PODCAST_WEEK_PACKAGE_ID);
   const [date, setDate] = useState(dateKey(dates[0]));
   const [slots, setSlots] = useState<string[]>([]);
   const [slot, setSlot] = useState("");
@@ -35,6 +35,7 @@ export function BookingForm() {
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
   const selectedPackage = BOOKING_PACKAGES.find((item) => item.id === packageId)!;
+  const visibleDates = packageId === PODCAST_WEEK_PACKAGE_ID ? dates.filter((item) => dateKey(item) <= PODCAST_WEEK_END) : dates;
 
   useEffect(() => {
     const controller = new AbortController();
@@ -120,7 +121,7 @@ export function BookingForm() {
             <span>02</span><div><p className="eyebrow">Choose a date</p><h2>When works for you?</h2></div>
           </div>
           <div className="date-strip">
-            {dates.map((item) => (
+            {visibleDates.map((item) => (
               <button className={date === dateKey(item) ? "date-option active" : "date-option"} key={dateKey(item)} onClick={() => chooseDate(dateKey(item))} type="button">
                 <small>{item.toLocaleDateString("en-US", { weekday: "short" })}</small>
                 <strong>{item.getDate()}</strong>
@@ -162,7 +163,7 @@ export function BookingForm() {
             <div><dt>Time</dt><dd>{slot ? new Date(slot).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/New_York" }) : "Choose a time"}</dd></div>
             <div><dt>Total</dt><dd>{formatPrice(selectedPackage.priceCents)}</dd></div>
           </dl>
-          <ul><li>On-site producer included</li><li>Professional cameras and microphones</li><li>Midtown Manhattan studio</li><li>Email confirmation after payment</li></ul>
+          <ul><li>On-site producer included</li><li>Three cameras and broadcast microphones</li><li>Studio lighting and multitrack audio</li><li>Email confirmation after payment</li></ul>
           <a href="tel:+12149036838">Need help? Call (214) 903-6838</a>
         </aside>
       </div>
