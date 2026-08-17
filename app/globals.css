@@ -296,7 +296,7 @@ p { margin-top: 0; }
 .text-link-light { border-color: rgba(255,255,255,.55); color: #fff; }
 #booking-calendar { scroll-margin-top: 82px; }
 
-html.reveal-ready main > section:not(.hero):not(.work-hero):not(.booking-hero),
+html.reveal-ready main > section:not(.hero):not(.work-hero):not(.booking-hero):not(.therapy-hero),
 html.reveal-ready .price-card,
 html.reveal-ready .reel-case,
 html.reveal-ready .results-grid figure {
@@ -304,7 +304,7 @@ html.reveal-ready .results-grid figure {
   transform: translateY(28px);
   transition: opacity .8s cubic-bezier(.22,.8,.26,1), transform .8s cubic-bezier(.22,.8,.26,1);
 }
-html.reveal-ready main > section:not(.hero):not(.work-hero):not(.booking-hero).is-visible,
+html.reveal-ready main > section:not(.hero):not(.work-hero):not(.booking-hero):not(.therapy-hero).is-visible,
 html.reveal-ready .price-card.is-visible,
 html.reveal-ready .reel-case.is-visible,
 html.reveal-ready .results-grid figure.is-visible { opacity: 1; transform: none; }
@@ -367,6 +367,50 @@ html.reveal-ready .pricing-grid .price-card:nth-child(4) { transition-delay: .24
 .booking-result-card h1 { font-size: clamp(3rem, 6vw, 5.4rem); }
 .booking-result-card > p:not(.eyebrow) { max-width: 580px; margin: 26px auto 32px; color: var(--muted); }
 
+.podcast-therapy-page { background: var(--paper); }
+.therapy-hero { overflow: hidden; background: radial-gradient(circle at 12% 10%, rgba(47,111,222,.25), transparent 32%), var(--navy); color: #fff; }
+.therapy-hero-grid { min-height: 760px; display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(420px, .92fr); gap: 72px; align-items: center; padding-top: 90px; padding-bottom: 90px; }
+.therapy-hero-copy h1 { max-width: 830px; font-size: clamp(3.8rem, 7vw, 7.1rem); }
+.therapy-hero-lead { max-width: 700px; margin: 30px 0 34px; color: #c4cedb; font-size: 1.07rem; line-height: 1.8; }
+.therapy-hero-note { margin: 22px 0 0; color: #8f9db0; font-size: .68rem; letter-spacing: .05em; }
+.therapy-hero-visual { position: relative; margin: 0; padding: 0 0 38px 34px; }
+.therapy-hero-visual::before { content: ""; position: absolute; inset: -40px -100px 85px 75px; border: 1px solid rgba(255,255,255,.14); }
+.therapy-hero-visual img { position: relative; z-index: 1; width: 100%; height: 570px; object-fit: cover; object-position: 57% center; box-shadow: 0 30px 90px rgba(0,0,0,.3); }
+.therapy-hero-visual figcaption { position: absolute; z-index: 2; left: 0; right: 38px; bottom: 0; display: flex; flex-direction: column; gap: 5px; padding: 24px 28px; background: var(--amber); color: var(--ink); }
+.therapy-hero-visual figcaption span { font-size: .65rem; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+.therapy-hero-visual figcaption strong { font-family: Georgia, serif; font-size: 1.3rem; font-weight: 500; }
+
+.therapy-intro { background: var(--cream); }
+.therapy-intro-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 100px; align-items: start; }
+.therapy-intro-grid h2 { max-width: 720px; }
+.therapy-intro-copy .lead { margin-top: 0; }
+.therapy-intro-copy > p:last-child { color: var(--muted); line-height: 1.8; }
+
+.therapy-options { background: var(--navy); color: #fff; }
+.therapy-options .split-heading > p { color: #aeb9c8; }
+.therapy-option-grid { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid rgba(255,255,255,.16); }
+.therapy-option-grid article { min-height: 410px; padding: 38px 64px 44px 0; }
+.therapy-option-grid article + article { padding-left: 64px; border-left: 1px solid rgba(255,255,255,.14); }
+.therapy-option-grid article > span { color: var(--amber-light); font-family: var(--font-geist-mono), monospace; font-size: .7rem; }
+.therapy-option-label { margin: 86px 0 12px; color: var(--amber-light); font-size: .65rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+.therapy-option-grid h3 { font-family: Georgia, serif; font-size: clamp(2rem, 3.4vw, 3.5rem); font-weight: 500; }
+.therapy-option-grid article > p:last-child { max-width: 510px; margin: 22px 0 0; color: #aeb9c8; line-height: 1.8; }
+
+.therapy-process { background: var(--paper); }
+.therapy-process-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+.therapy-process-grid article { padding: 34px 42px 0 0; }
+.therapy-process-grid article + article { padding-left: 42px; border-left: 1px solid var(--line); }
+.therapy-process-grid span { color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: .7rem; }
+.therapy-process-grid h3 { margin: 52px 0 15px; font-family: Georgia, serif; font-size: 1.75rem; font-weight: 500; }
+.therapy-process-grid p { color: var(--muted); font-size: .86rem; line-height: 1.75; }
+
+.therapy-included { background: var(--cream); }
+.therapy-boundary { padding: 92px 0; background: linear-gradient(120deg, #174b9f, #0d2c61 68%, #08172b); color: #fff; }
+.therapy-boundary-grid { display: grid; grid-template-columns: .42fr 1.58fr; gap: 80px; align-items: start; }
+.therapy-boundary-grid h2 { max-width: 830px; font-size: clamp(2.8rem, 4.7vw, 5rem); }
+.therapy-boundary-grid div p { max-width: 790px; margin: 28px 0 0; color: #c1ccda; line-height: 1.8; }
+.therapy-cta { background: radial-gradient(circle at 15% 0%, rgba(47,111,222,.28), transparent 35%), var(--navy); }
+
 @media (max-width: 1020px) {
   .site-header nav { display: none; }
   .proof-strip { grid-template-columns: repeat(2, 1fr); }
@@ -393,6 +437,11 @@ html.reveal-ready .pricing-grid .price-card:nth-child(4) { transition-delay: .24
   .results-grid img { height: auto; max-height: 560px; }
   .reel-case, .reel-case-reverse { grid-template-columns: 330px minmax(0, 1fr); gap: 55px; }
   .reel-case-reverse .phone-frame, .reel-case-reverse .reel-case-copy { order: initial; }
+  .therapy-hero-grid { min-height: auto; grid-template-columns: 1fr; padding-top: 85px; }
+  .therapy-hero-copy { max-width: 840px; }
+  .therapy-hero-visual { max-width: 680px; }
+  .therapy-intro-grid { grid-template-columns: 1fr; gap: 42px; }
+  .therapy-boundary-grid { grid-template-columns: 1fr; gap: 24px; }
 }
 
 @media (max-width: 680px) {
@@ -467,10 +516,23 @@ html.reveal-ready .pricing-grid .price-card:nth-child(4) { transition-delay: .24
   .reel-case, .reel-case-reverse { grid-template-columns: 1fr; gap: 36px; }
   .reel-case .phone-frame { order: 1; }
   .reel-case .reel-case-copy { order: 2; }
+  .therapy-hero-grid { gap: 54px; padding-top: 72px; padding-bottom: 72px; }
+  .therapy-hero-copy h1 { font-size: clamp(3.3rem, 15vw, 5.1rem); }
+  .therapy-hero-lead { font-size: .95rem; }
+  .therapy-hero-visual { padding-left: 18px; }
+  .therapy-hero-visual::before { display: none; }
+  .therapy-hero-visual img { height: 460px; }
+  .therapy-hero-visual figcaption { right: 18px; padding: 20px; }
+  .therapy-option-grid, .therapy-process-grid { grid-template-columns: 1fr; }
+  .therapy-option-grid article, .therapy-option-grid article + article { min-height: auto; padding: 30px 0 44px; border-left: 0; border-bottom: 1px solid rgba(255,255,255,.14); }
+  .therapy-option-label { margin-top: 45px; }
+  .therapy-process-grid article, .therapy-process-grid article + article { padding: 28px 0; border-left: 0; border-bottom: 1px solid var(--line); }
+  .therapy-process-grid h3 { margin-top: 28px; }
+  .therapy-boundary { padding: 72px 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
-  html.reveal-ready main > section:not(.hero):not(.work-hero):not(.booking-hero), html.reveal-ready .price-card, html.reveal-ready .reel-case, html.reveal-ready .results-grid figure { opacity: 1; transform: none; }
+  html.reveal-ready main > section:not(.hero):not(.work-hero):not(.booking-hero):not(.therapy-hero), html.reveal-ready .price-card, html.reveal-ready .reel-case, html.reveal-ready .results-grid figure { opacity: 1; transform: none; }
 }
