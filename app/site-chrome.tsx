@@ -20,6 +20,7 @@ export function Header() {
           <Link href="/#studio">Studio</Link>
           <Link href="/#services">Services</Link>
           <Link href="/#pricing">Pricing</Link>
+          <Link href="/podcast-therapy">Podcast Therapy</Link>
           <Link href="/#location">Location</Link>
           <Link href="/book">Book</Link>
         </nav>
@@ -41,7 +42,7 @@ export function Footer() {
           </Link>
           <p>Professional podcast and video production in a comfortable Midtown Manhattan studio.</p>
         </div>
-        <div><h3>Explore</h3><Link href="/work">Our work</Link><Link href="/#studio">The studio</Link><Link href="/#services">Services</Link><Link href="/#pricing">Pricing</Link><Link href="/book">Book online</Link></div>
+        <div><h3>Explore</h3><Link href="/work">Our work</Link><Link href="/#studio">The studio</Link><Link href="/#services">Services</Link><Link href="/#pricing">Pricing</Link><Link href="/podcast-therapy">Podcast Therapy</Link><Link href="/book">Book online</Link></div>
         <div><h3>Visit</h3><p>1345 Avenue of the Americas<br />2nd Floor<br />New York, NY</p></div>
         <div><h3>Start a project</h3><a href="tel:+12149036838">(214) 903-6838</a><a href="mailto:ezraberke@virgopodcast.com">ezraberke@virgopodcast.com</a><span>Free consultations</span></div>
       </div>
