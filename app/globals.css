@@ -397,6 +397,14 @@ html.reveal-ready .pricing-grid .price-card:nth-child(4) { transition-delay: .24
 .therapy-option-grid article > p:last-child { max-width: 510px; margin: 22px 0 0; color: #aeb9c8; line-height: 1.8; }
 
 .therapy-process { background: var(--paper); }
+.therapy-listening-feature { display: grid; grid-template-columns: minmax(0, 1.16fr) minmax(340px, .84fr); margin: 0 0 78px; background: var(--cream); box-shadow: 0 24px 70px rgba(9,25,48,.08); }
+.therapy-listening-feature figure { position: relative; min-height: 500px; margin: 0; overflow: hidden; }
+.therapy-listening-feature figure img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.therapy-listening-feature figcaption { position: absolute; left: 0; right: 15%; bottom: 0; padding: 20px 24px; background: rgba(9,25,48,.92); color: #fff; font-size: .68rem; font-weight: 750; letter-spacing: .05em; line-height: 1.55; }
+.therapy-listening-copy { display: flex; flex-direction: column; justify-content: center; padding: 58px 54px; }
+.therapy-listening-copy h3 { margin: 10px 0 28px; font-family: Georgia, serif; font-size: clamp(2.25rem, 3.5vw, 3.75rem); font-weight: 500; line-height: 1.08; }
+.therapy-listening-copy .lead { margin: 0 0 22px; color: var(--ink); font-size: 1rem; line-height: 1.8; }
+.therapy-listening-copy > p:last-child { margin: 0; color: var(--muted); line-height: 1.8; }
 .therapy-process-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
 .therapy-process-grid article { padding: 34px 42px 0 0; }
 .therapy-process-grid article + article { padding-left: 42px; border-left: 1px solid var(--line); }
@@ -441,6 +449,8 @@ html.reveal-ready .pricing-grid .price-card:nth-child(4) { transition-delay: .24
   .therapy-hero-copy { max-width: 840px; }
   .therapy-hero-visual { max-width: 680px; }
   .therapy-intro-grid { grid-template-columns: 1fr; gap: 42px; }
+  .therapy-listening-feature { grid-template-columns: 1fr; }
+  .therapy-listening-feature figure { min-height: 480px; }
   .therapy-boundary-grid { grid-template-columns: 1fr; gap: 24px; }
 }
 
@@ -524,6 +534,11 @@ html.reveal-ready .pricing-grid .price-card:nth-child(4) { transition-delay: .24
   .therapy-hero-visual img { height: 460px; }
   .therapy-hero-visual figcaption { right: 18px; padding: 20px; }
   .therapy-option-grid, .therapy-process-grid { grid-template-columns: 1fr; }
+  .therapy-listening-feature { margin-bottom: 55px; }
+  .therapy-listening-feature figure { min-height: 300px; }
+  .therapy-listening-feature figcaption { right: 0; }
+  .therapy-listening-copy { padding: 38px 24px 42px; }
+  .therapy-listening-copy h3 { font-size: 2.35rem; }
   .therapy-option-grid article, .therapy-option-grid article + article { min-height: auto; padding: 30px 0 44px; border-left: 0; border-bottom: 1px solid rgba(255,255,255,.14); }
   .therapy-option-label { margin-top: 45px; }
   .therapy-process-grid article, .therapy-process-grid article + article { padding: 28px 0; border-left: 0; border-bottom: 1px solid var(--line); }

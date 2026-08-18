@@ -110,6 +110,30 @@ export default function PodcastTherapyPage() {
               <p className="eyebrow">How it works</p>
               <h2>A simple, supported creative process.</h2>
             </div>
+            <div className="therapy-listening-feature">
+              <figure>
+                <img
+                  src="/assets/podcast-therapy-listening-space.webp"
+                  alt="A guest reflecting during a conversation in the VIRGO recording studio"
+                />
+                <figcaption>A warm recording space, with time to speak without rushing.</figcaption>
+              </figure>
+              <div className="therapy-listening-copy">
+                <p className="eyebrow">The importance of being heard</p>
+                <h3>Give what is on your mind somewhere to go.</h3>
+                <p className="lead">
+                  Being genuinely heard can create room for clarity. When you can speak without
+                  being rushed, interrupted, or expected to find the perfect words, thoughts that
+                  have felt tangled can begin to settle.
+                </p>
+                <p>
+                  Podcast Therapy provides a warm recording space to get things off your chest,
+                  reflect on where you have been, and recapture the magic of the little things in
+                  your life—the people, routines, memories, and moments that are easy to overlook
+                  but meaningful to preserve.
+                </p>
+              </div>
+            </div>
             <div className="therapy-process-grid">
               <article>
                 <span>01</span>
