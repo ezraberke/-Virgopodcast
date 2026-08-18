@@ -19,15 +19,15 @@ export default function BookPage() {
             <p>Choose an available promotional time and reserve your one-hour professional studio recording session securely.</p>
           </div>
         </section>
-        <section className="creator-booking-callout" id="creator-kit">
+        <section className="creator-booking-callout" id="podcast-starter-kit">
           <div className="container creator-booking-inner">
             <div>
-              <p className="eyebrow light">Creator Starter Kit</p>
-              <h2>Record once. Launch with a plan.</h2>
+              <p className="eyebrow light">Podcast Starter Kit</p>
+              <h2>Record once. Launch your podcast.</h2>
             </div>
             <div>
-              <p>Select the Creator Starter Kit below. It starts at $160 for one hour and combines studio recording, finished social content, managed distribution and our 100-real-viewer guarantee.</p>
-              <a className="text-link text-link-light" href="#booking-calendar">Choose the Creator Starter Kit <span aria-hidden="true">↓</span></a>
+              <p>Select the Podcast Starter Kit below. It starts at $160 for one hour and combines studio recording, a polished episode, finished social content, managed distribution and our 100-real-viewer guarantee.</p>
+              <a className="text-link text-link-light" href="#booking-calendar">Choose the Podcast Starter Kit <span aria-hidden="true">↓</span></a>
             </div>
           </div>
         </section>

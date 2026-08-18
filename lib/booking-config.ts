@@ -38,7 +38,7 @@ const families = [
     id: "episode-social",
     family: "For podcasters",
     title: "Podcast Starter Kit",
-    description: "A polished full episode plus vertical social edits that turn one recording into a repeatable content pipeline.",
+    description: "A polished full episode, vertical social edits and a managed launch backed by our 100-real-viewer guarantee.",
     prices: [16000, 25000, 35000, 55000],
   },
   {
