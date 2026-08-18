@@ -3,9 +3,9 @@ import Link from "next/link";
 import { Footer, Header } from "../site-chrome";
 
 export const metadata: Metadata = {
-  title: "Podcast Therapy | Tell Your Story at VIRGO",
+  title: "Podcast Therapy Wellness Experience | VIRGO",
   description:
-    "A guided, professionally produced podcast experience for telling your story—kept private or prepared to share, always on your terms.",
+    "A guided, non-clinical wellness experience built around reflection, self-expression, and telling your story in a professionally produced podcast.",
 };
 
 const bookingLink = "/book?experience=podcast-therapy#booking-calendar";
@@ -18,23 +18,23 @@ export default function PodcastTherapyPage() {
         <section className="therapy-hero">
           <div className="container therapy-hero-grid">
             <div className="therapy-hero-copy">
-              <p className="eyebrow light">A personal podcast experience</p>
-              <h1>Talk it out. Tell your story. Record something real.</h1>
+              <p className="eyebrow light">A creative wellness service</p>
+              <h1>A wellness experience built around your story.</h1>
               <p className="therapy-hero-lead">
-                Create a professionally produced episode about your life, relationships,
-                passions, or turning points—with thoughtful guidance from a producer and
-                complete control over whether it stays private or reaches an audience.
+                Slow down, reflect, and put a meaningful part of your life into words. Podcast
+                Therapy combines guided conversation, creative self-expression, and professional
+                production—with complete control over whether your episode stays private or is shared.
               </p>
               <div className="button-row">
                 <Link className="button button-primary" href={bookingLink}>
-                  Create my episode <span aria-hidden="true">→</span>
+                  Book a wellness session <span aria-hidden="true">→</span>
                 </Link>
                 <a className="button button-ghost" href="#how-it-works">
                   See how it works
                 </a>
               </div>
               <p className="therapy-hero-note">
-                Creative storytelling and recording—not mental-health treatment.
+                A non-clinical wellness and storytelling service—not mental-health treatment.
               </p>
             </div>
             <figure className="therapy-hero-visual">
@@ -53,20 +53,19 @@ export default function PodcastTherapyPage() {
         <section className="section therapy-intro">
           <div className="container therapy-intro-grid">
             <div>
-              <p className="eyebrow">What Podcast Therapy means here</p>
-              <h2>A space to speak with intention.</h2>
+              <p className="eyebrow">Wellness through storytelling</p>
+              <h2>A place to pause, reflect, and express yourself.</h2>
             </div>
             <div className="therapy-intro-copy">
               <p className="lead">
-                Sometimes the easiest way to understand a chapter of your life is to tell it
-                out loud. A VIRGO producer helps you shape the conversation, asks thoughtful
-                prompts, and keeps the recording moving—without turning your story into a
-                clinical session.
+                Sometimes telling a chapter of your life out loud can help you see it more
+                clearly. A VIRGO producer creates space for reflection, asks thoughtful prompts,
+                and helps shape the conversation into a meaningful creative experience.
               </p>
               <p>
                 Come with a fully formed idea or simply a part of your life you want to explore.
-                We help turn it into an episode that sounds considered, honest, and unmistakably
-                yours.
+                We help you turn reflection into an episode that feels considered, honest, and
+                unmistakably yours—without presenting the session as clinical care.
               </p>
             </div>
           </div>
@@ -76,29 +75,29 @@ export default function PodcastTherapyPage() {
           <div className="container">
             <div className="section-heading split-heading">
               <div>
-                <p className="eyebrow light">Choose your comfort level</p>
-                <h2 id="therapy-options-title">Private reflection or a story you share.</h2>
+                <p className="eyebrow light">Choose your wellness experience</p>
+                <h2 id="therapy-options-title">Reflect privately or share your story.</h2>
               </div>
               <p>You decide what happens after the recording. Nothing is published without your final approval.</p>
             </div>
             <div className="therapy-option-grid">
               <article>
                 <span>01</span>
-                <p className="therapy-option-label">Private reflection episode</p>
-                <h3>Make it for yourself.</h3>
+                <p className="therapy-option-label">Private reflection experience</p>
+                <h3>Create something just for you.</h3>
                 <p>
                   Record a personal episode that VIRGO does not publish. Use the studio and
-                  guided conversation to preserve a memory, process a turning point, or say
-                  something you have wanted to put into words.
+                  guided conversation to reflect on a transition, preserve a memory, celebrate
+                  growth, or put something meaningful into words.
                 </p>
               </article>
               <article>
                 <span>02</span>
-                <p className="therapy-option-label">Share your story episode</p>
-                <h3>Make it for an audience.</h3>
+                <p className="therapy-option-label">Shared storytelling experience</p>
+                <h3>Turn your perspective into connection.</h3>
                 <p>
-                  Shape your experience into a polished episode that can reach other people.
-                  You review the final edit and approve it before anything is publicly released.
+                  Shape your reflections into a polished episode that can encourage, entertain,
+                  or connect with other people. You approve the final edit before anything is released.
                 </p>
               </article>
             </div>
@@ -109,13 +108,13 @@ export default function PodcastTherapyPage() {
           <div className="container">
             <div className="section-heading">
               <p className="eyebrow">How it works</p>
-              <h2>We make the room feel easy.</h2>
+              <h2>A simple, supported creative process.</h2>
             </div>
             <div className="therapy-process-grid">
               <article>
                 <span>01</span>
-                <h3>Plan the story</h3>
-                <p>Tell us what you want to explore. We create a loose arc and prompts so you never have to perform from a script.</p>
+                <h3>Set an intention</h3>
+                <p>Tell us what you want to reflect on or express. We create a loose arc and prompts so you never have to perform from a script.</p>
               </article>
               <article>
                 <span>02</span>
@@ -142,8 +141,8 @@ export default function PodcastTherapyPage() {
               <div className="image-note"><span>60–90</span>minutes to speak without rushing</div>
             </div>
             <div className="story-copy">
-              <p className="eyebrow">Your experience includes</p>
-              <h2>Guidance before, during, and after recording.</h2>
+              <p className="eyebrow">Your wellness experience includes</p>
+              <h2>Time, space, and creative support for your story.</h2>
               <ul className="check-list">
                 <li>Pre-session story planning</li>
                 <li>60–90 minute studio recording</li>
@@ -152,7 +151,7 @@ export default function PodcastTherapyPage() {
                 <li>Final approval before publication</li>
                 <li>Optional social clips</li>
               </ul>
-              <Link className="button button-dark" href={bookingLink}>Start planning my episode</Link>
+              <Link className="button button-dark" href={bookingLink}>Plan my wellness session</Link>
             </div>
           </div>
         </section>
@@ -161,12 +160,13 @@ export default function PodcastTherapyPage() {
           <div className="container therapy-boundary-grid">
             <p className="eyebrow light">A clear boundary</p>
             <div>
-              <h2 id="therapy-boundary-title">Story support, not clinical care.</h2>
+              <h2 id="therapy-boundary-title">Creative wellness, with a clear boundary.</h2>
               <p>
-                Podcast Therapy is a creative storytelling and recording experience—not
-                psychotherapy, counseling, medical care, or crisis support. VIRGO Podcast
-                Studio does not diagnose or treat mental-health conditions. Your session is
-                guided by a producer and story facilitator, not a licensed therapist.
+                Podcast Therapy is a non-clinical wellness, storytelling, and recording service.
+                It is not psychotherapy, counseling, medical care, crisis support, or a substitute
+                for care from a licensed professional. VIRGO Podcast Studio does not diagnose or
+                treat mental-health conditions. Sessions are guided by a producer and story
+                facilitator, not a licensed therapist.
               </p>
             </div>
           </div>
@@ -193,7 +193,7 @@ export default function PodcastTherapyPage() {
               </details>
               <details>
                 <summary>Is this a therapy or counseling session?</summary>
-                <p>No. It is a producer-guided storytelling and recording experience and is not a substitute for professional mental-health care.</p>
+                <p>No. Podcast Therapy is a creative wellness and storytelling service guided by a producer. It is not psychotherapy, counseling, or a substitute for professional mental-health care.</p>
               </details>
             </div>
           </div>
@@ -201,11 +201,11 @@ export default function PodcastTherapyPage() {
 
         <section className="final-cta therapy-cta">
           <div className="container final-cta-inner">
-            <p className="eyebrow light">Your story is enough to begin</p>
-            <h2>Bring the chapter. We&apos;ll help shape the episode.</h2>
-            <p>Reserve a studio time now, then we&apos;ll follow up to plan the story and the level of privacy that feels right for you.</p>
+            <p className="eyebrow light">Make space for your story</p>
+            <h2>Book a creative wellness experience that sounds like you.</h2>
+            <p>Reserve a studio time, then we&apos;ll follow up to set your intention, plan the conversation, and choose the level of privacy that feels right.</p>
             <div className="button-row centered-buttons">
-              <Link className="button button-primary" href={bookingLink}>Create my episode</Link>
+              <Link className="button button-primary" href={bookingLink}>Book my wellness session</Link>
               <a className="button button-ghost" href="mailto:ezraberke@virgopodcast.com?subject=Podcast%20Therapy%20question">Ask a question first</a>
             </div>
           </div>
