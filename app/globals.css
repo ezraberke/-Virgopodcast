@@ -172,6 +172,8 @@ p { margin-top: 0; }
 .price-card h3 { margin: 10px 0 15px; font-family: Georgia, serif; font-size: 1.7rem; font-weight: 500; }
 .price-description { min-height: 106px; color: var(--muted); font-size: .83rem; line-height: 1.65; }
 .featured .price-description { color: #aeb9c8; }
+.price-guarantee { display: flex; align-items: center; gap: 8px; margin: 2px 0 0; color: #123d7e; font-size: .73rem; font-weight: 850; line-height: 1.35; }
+.price-guarantee span { display: grid; flex: 0 0 22px; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--blue); color: #fff; font-size: .7rem; }
 .price { display: flex; align-items: baseline; gap: 7px; margin: 24px 0 25px; }
 .price strong { font-family: Georgia, serif; font-size: 3.35rem; font-weight: 500; line-height: 1; }
 .price span { color: var(--muted); font-size: .75rem; }
