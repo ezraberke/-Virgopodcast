@@ -79,7 +79,7 @@ export default function Home() {
           />
           <div className="hero-shade" />
           <div className="container hero-content">
-            <p className="eyebrow light">One week only · August 14–20, 2026</p>
+            <p className="eyebrow light">One week only · August 19–25, 2026</p>
             <h1><span className="hero-price">$10</span> Start Your Own<br />Podcast Week</h1>
             <p className="hero-copy">
               Use our professional studio to create content, build your personal or
@@ -89,13 +89,76 @@ export default function Home() {
               <a className="button button-primary" href="/book?promo=podcast-week#booking-calendar">Book your $10 session <span aria-hidden="true">→</span></a>
               <a className="button button-ghost" href="/work">Watch our work <span aria-hidden="true">↗</span></a>
             </div>
-            <p className="hero-terms">New clients only · One 1-hour promotional recording session per person · Studio and equipment use included; editing is not included · Session must take place August 14–20, 2026 · Limited availability</p>
+            <p className="hero-terms">New clients only · One 1-hour promotional recording session per person · Studio and equipment use included; editing is not included · Session must take place August 19–25, 2026 · Limited availability</p>
           </div>
           <div className="container proof-strip" aria-label="Studio highlights">
             <div><strong>3 cameras</strong><span>professional coverage</span></div>
             <div><strong>Broadcast mics</strong><span>multitrack audio</span></div>
             <div><strong>Studio lighting</strong><span>camera-ready setup</span></div>
             <div><strong>Midtown</strong><span>on-site producer</span></div>
+          </div>
+        </section>
+
+        <section className="home-therapy-spotlight" id="podcast-therapy">
+          <div className="container home-therapy-grid">
+            <figure className="home-therapy-visual">
+              <img
+                src="/assets/podcast-therapy-listening-space.webp"
+                alt="A guest reflecting during a conversation in the VIRGO recording studio"
+              />
+              <figcaption>Speak without rushing. Keep it private or choose to share.</figcaption>
+            </figure>
+            <div className="home-therapy-copy">
+              <p className="eyebrow light">Podcast Therapy</p>
+              <h2>Give what is on your mind somewhere to go.</h2>
+              <p className="home-therapy-lead">
+                A guided, non-clinical wellness experience built around reflection,
+                self-expression, and telling your story in a professionally produced podcast.
+              </p>
+              <p>
+                Take time to put a meaningful part of your life into words. Your episode can
+                remain completely private or be shaped into something you choose to share.
+              </p>
+              <div className="button-row">
+                <a className="button button-primary" href="/podcast-therapy">
+                  Explore Podcast Therapy <span aria-hidden="true">→</span>
+                </a>
+                <a className="button button-ghost" href="/book?experience=podcast-therapy#booking-calendar">
+                  Book the experience
+                </a>
+              </div>
+              <p className="home-therapy-note">
+                A creative wellness and storytelling service—not mental-health treatment.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="section results-section" id="results">
+          <div className="container">
+            <div className="results-intro">
+              <div>
+                <p className="eyebrow light">Podcast Starter Kit · proof of reach</p>
+                <h2>A launch built to get your podcast seen.</h2>
+              </div>
+              <p>These are real VIRGO channel results—not stock examples. They show the visibility a coordinated recording, editing and launch workflow can create.</p>
+            </div>
+            <div className="results-grid">
+              <figure>
+                <img src="/assets/creator-results-views.webp" alt="Analytics showing 3.6 thousand views, 3.4 thousand more than usual" loading="lazy" />
+                <figcaption><strong>3.6K views</strong><span>3.4K more than the channel’s usual performance</span></figcaption>
+              </figure>
+              <figure>
+                <img src="/assets/podcast-starter-kit-results.webp" alt="YouTube Studio analytics showing 3,246 views, 125 watch hours and 8 new subscribers in 28 days" loading="lazy" />
+                <figcaption><strong>3,246 views · 125 watch hours</strong><span>Recent VIRGO channel performance across 28 days</span></figcaption>
+              </figure>
+            </div>
+            <div className="guarantee-card">
+              <p className="eyebrow light">Podcast Starter Kit guarantee</p>
+              <h3>100 real viewers—or your money back.</h3>
+              <p>We guarantee at least 100 combined organic views across the short-form launch clips included with your Podcast Starter Kit within 30 days of the first post. If we miss that mark, we refund your Podcast Starter Kit fee. No purchased views and no bots. Recent performance is evidence of our work, not a promise of identical results.</p>
+              <a className="button button-primary" href="/book#podcast-starter-kit">Book the Podcast Starter Kit <span aria-hidden="true">→</span></a>
+            </div>
           </div>
         </section>
 
@@ -111,7 +174,7 @@ export default function Home() {
                 <li>Build visibility for your personal brand, business or big idea</li>
               </ul>
               <a className="button button-dark" href="/book?promo=podcast-week#booking-calendar">Claim your $10 session <span aria-hidden="true">→</span></a>
-              <p className="promo-fine-print"><strong>Promotion dates:</strong> Friday, August 14 through Thursday, August 20, 2026. New clients only. One 1-hour promotional recording session per person. Includes studio and listed recording equipment; editing and add-ons are not included. Appointment must take place during the promotional period. Limited availability; advance booking required.</p>
+              <p className="promo-fine-print"><strong>Promotion dates:</strong> Wednesday, August 19 through Tuesday, August 25, 2026. New clients only. One 1-hour promotional recording session per person. Includes studio and listed recording equipment; editing and add-ons are not included. Appointment must take place during the promotional period. Limited availability; advance booking required.</p>
             </div>
           </div>
         </section>
@@ -166,6 +229,48 @@ export default function Home() {
                 <li>Remote guest capability</li>
               </ul>
               <a className="text-link" href="/book">See available sessions <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </section>
+
+        <section className="section set-flex-section" id="set-design">
+          <div className="container">
+            <div className="section-heading split-heading">
+              <div>
+                <p className="eyebrow">A studio that can become yours</p>
+                <h2>Build the set your show calls for.</h2>
+              </div>
+              <p>
+                Use the VIRGO set as it is, bring in your own elements, or work with us to
+                shape a repeatable look around your exact creative specifications.
+              </p>
+            </div>
+            <div className="set-flex-grid">
+              <article>
+                <span>01</span>
+                <h3>Flexible set design</h3>
+                <p>
+                  Customize furniture, backdrops, color, props, and on-camera details to
+                  create a set that fits your show, campaign, or brand.
+                </p>
+              </article>
+              <article>
+                <span>02</span>
+                <h3>Set storage</h3>
+                <p>
+                  Keep approved set pieces and branded elements with us between sessions,
+                  so your setup can be ready when you arrive.
+                </p>
+              </article>
+            </div>
+            <div className="set-flex-footer">
+              <p>
+                Set design, installation, and storage are quoted separately based on scope,
+                dimensions, and duration.
+              </p>
+              <a className="text-link" href="/book?service=set-design#booking-calendar">
+                Plan your set <span aria-hidden="true">→</span>
+              </a>
             </div>
           </div>
         </section>
@@ -236,34 +341,6 @@ export default function Home() {
               ))}
             </div>
             <p className="pricing-note">The Podcast and Creator Starter Kits share the same session rates. Custom backdrops and advanced graphics are quoted separately.</p>
-          </div>
-        </section>
-
-        <section className="section results-section" id="results">
-          <div className="container">
-            <div className="results-intro">
-              <div>
-                <p className="eyebrow light">Podcast Starter Kit · proof of reach</p>
-                <h2>A launch built to get your podcast seen.</h2>
-              </div>
-              <p>These are real VIRGO channel results—not stock examples. They show the visibility a coordinated recording, editing and launch workflow can create.</p>
-            </div>
-            <div className="results-grid">
-              <figure>
-                <img src="/assets/creator-results-views.webp" alt="Analytics showing 3.6 thousand views, 3.4 thousand more than usual" loading="lazy" />
-                <figcaption><strong>3.6K views</strong><span>3.4K more than the channel’s usual performance</span></figcaption>
-              </figure>
-              <figure>
-                <img src="/assets/podcast-starter-kit-results.webp" alt="YouTube Studio analytics showing 3,246 views, 125 watch hours and 8 new subscribers in 28 days" loading="lazy" />
-                <figcaption><strong>3,246 views · 125 watch hours</strong><span>Recent VIRGO channel performance across 28 days</span></figcaption>
-              </figure>
-            </div>
-            <div className="guarantee-card">
-              <p className="eyebrow light">Podcast Starter Kit guarantee</p>
-              <h3>100 real viewers—or your money back.</h3>
-              <p>We guarantee at least 100 combined organic views across the short-form launch clips included with your Podcast Starter Kit within 30 days of the first post. If we miss that mark, we refund your Podcast Starter Kit fee. No purchased views and no bots. Recent performance is evidence of our work, not a promise of identical results.</p>
-              <a className="button button-primary" href="/book#podcast-starter-kit">Book the Podcast Starter Kit <span aria-hidden="true">→</span></a>
-            </div>
           </div>
         </section>
 

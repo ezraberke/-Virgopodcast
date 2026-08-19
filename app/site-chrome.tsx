@@ -5,7 +5,7 @@ export function Header() {
     <>
     <aside className="promo-bar" aria-label="$10 Start Your Own Podcast Week promotion">
       <div className="container promo-bar-inner">
-        <p><strong>$10 Start Your Own Podcast Week</strong><span>August 14–20, 2026 · Limited sessions</span></p>
+        <p><strong>$10 Start Your Own Podcast Week</strong><span>August 19–25, 2026 · Limited sessions</span></p>
         <Link href="/book?promo=podcast-week#booking-calendar">Book your $10 session <span aria-hidden="true">→</span></Link>
       </div>
     </aside>

@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Please complete all required fields." }, { status: 400 });
   }
   if (bookingPackage.id === PODCAST_WEEK_PACKAGE_ID && !isPodcastWeekDate(start.toISODate() ?? "")) {
-    return NextResponse.json({ error: "The $10 promotion is available only for sessions from August 14 through August 20, 2026." }, { status: 400 });
+    return NextResponse.json({ error: "The $10 promotion is available only for sessions from August 19 through August 25, 2026." }, { status: 400 });
   }
   if (start < DateTime.now().setZone(STUDIO_TIME_ZONE).plus({ hours: 2 })) {
     return NextResponse.json({ error: "That time is no longer available." }, { status: 409 });
