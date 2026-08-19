@@ -87,6 +87,7 @@ p { margin-top: 0; }
 .home-therapy-copy > p:not(.eyebrow):not(.home-therapy-lead):not(.home-therapy-note) { max-width: 650px; margin: 0 0 32px; color: #9fadc0; line-height: 1.8; }
 .home-therapy-note { margin: 20px 0 0; color: #8090a6; font-size: .67rem; letter-spacing: .04em; }
 
+
 .promo-details { padding: 100px 0; background: var(--amber); color: var(--ink); }
 .promo-details-grid { display: grid; grid-template-columns: .92fr 1.08fr; gap: 100px; align-items: start; }
 .promo-details .eyebrow { color: #53340e; }
@@ -183,6 +184,8 @@ p { margin-top: 0; }
 .price-card h3 { margin: 10px 0 15px; font-family: Georgia, serif; font-size: 1.7rem; font-weight: 500; }
 .price-description { min-height: 106px; color: var(--muted); font-size: .83rem; line-height: 1.65; }
 .featured .price-description { color: #aeb9c8; }
+.price-guarantee { display: flex; align-items: center; gap: 8px; margin: 2px 0 0; color: #123d7e; font-size: .73rem; font-weight: 850; line-height: 1.35; }
+.price-guarantee span { display: grid; flex: 0 0 22px; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--blue); color: #fff; font-size: .7rem; }
 .price { display: flex; align-items: baseline; gap: 7px; margin: 24px 0 25px; }
 .price strong { font-family: Georgia, serif; font-size: 3.35rem; font-weight: 500; line-height: 1; }
 .price span { color: var(--muted); font-size: .75rem; }
@@ -434,6 +437,8 @@ html.reveal-ready .pricing-grid .price-card:nth-child(4) { transition-delay: .24
   .site-header nav { display: none; }
   .proof-strip { grid-template-columns: repeat(2, 1fr); }
   .proof-strip div { min-height: 70px; }
+  .home-therapy-grid { grid-template-columns: 1fr; gap: 62px; }
+  .home-therapy-visual { max-width: 720px; }
   .hero-content { padding-bottom: 190px; }
   .split-heading, .two-column, .promo-details-grid, .delivery-inner, .location-grid, .faq-grid, .portfolio-item, .portfolio-item.reverse, .short-grid { grid-template-columns: 1fr; gap: 50px; }
   .project-grid { grid-template-columns: 1fr; }
@@ -463,8 +468,6 @@ html.reveal-ready .pricing-grid .price-card:nth-child(4) { transition-delay: .24
   .therapy-listening-feature { grid-template-columns: 1fr; }
   .therapy-listening-feature figure { min-height: 480px; }
   .therapy-boundary-grid { grid-template-columns: 1fr; gap: 24px; }
-  .home-therapy-grid { grid-template-columns: 1fr; gap: 62px; }
-  .home-therapy-visual { max-width: 720px; }
 }
 
 @media (max-width: 680px) {
@@ -488,6 +491,14 @@ html.reveal-ready .pricing-grid .price-card:nth-child(4) { transition-delay: .24
   .proof-strip { grid-template-columns: 1fr 1fr; }
   .proof-strip strong { font-size: .95rem; }
   .proof-strip span { font-size: .58rem; }
+  .home-therapy-spotlight { padding: 76px 0; }
+  .home-therapy-grid { gap: 48px; }
+  .home-therapy-visual { padding: 0 18px 28px 0; }
+  .home-therapy-visual::before { display: none; }
+  .home-therapy-visual img { height: 380px; }
+  .home-therapy-visual figcaption { max-width: calc(100% - 32px); padding: 17px 19px; }
+  .home-therapy-copy h2 { font-size: clamp(2.8rem, 13vw, 4.4rem); }
+  .home-therapy-lead { font-size: .96rem; }
   .section-heading { margin-bottom: 34px; }
   .split-heading { gap: 24px; }
   .project-meta { grid-template-columns: 1fr; }
@@ -557,14 +568,6 @@ html.reveal-ready .pricing-grid .price-card:nth-child(4) { transition-delay: .24
   .therapy-process-grid article, .therapy-process-grid article + article { padding: 28px 0; border-left: 0; border-bottom: 1px solid var(--line); }
   .therapy-process-grid h3 { margin-top: 28px; }
   .therapy-boundary { padding: 72px 0; }
-  .home-therapy-spotlight { padding: 76px 0; }
-  .home-therapy-grid { gap: 48px; }
-  .home-therapy-visual { padding: 0 18px 28px 0; }
-  .home-therapy-visual::before { display: none; }
-  .home-therapy-visual img { height: 380px; }
-  .home-therapy-visual figcaption { max-width: calc(100% - 32px); padding: 17px 19px; }
-  .home-therapy-copy h2 { font-size: clamp(2.8rem, 13vw, 4.4rem); }
-  .home-therapy-lead { font-size: .96rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
