@@ -46,12 +46,13 @@ const prices = [
   {
     eyebrow: "For podcasters",
     title: "Podcast Starter Kit",
-    description: "A polished full episode plus vertical social edits that turn one recording into a repeatable content pipeline.",
+    description: "A polished full episode, vertical social edits and a managed launch backed by our 100-real-viewer guarantee.",
     price: "$160",
     note: "one hour",
     rows: ["2 hours — $250", "Half day — $350", "Full day — $550"],
     href: "/book",
     podcast: true,
+    guarantee: "100 real viewers—or your money back",
   },
   {
     eyebrow: "For creators",
@@ -260,6 +261,7 @@ export default function Home() {
                   <p className="price-eyebrow">{price.eyebrow}</p>
                   <h3>{price.title}</h3>
                   <p className="price-description">{price.description}</p>
+                  {price.guarantee && <p className="price-guarantee"><span aria-hidden="true">✓</span>{price.guarantee}</p>}
                   <div className="price"><strong>{price.price}</strong><span>/{price.note}</span></div>
                   <ul>{price.rows.map((row) => <li key={row}>{row}</li>)}</ul>
                   <a className={price.featured ? "button button-primary full" : "button button-dark full"} href={price.href}>
@@ -276,10 +278,10 @@ export default function Home() {
           <div className="container">
             <div className="results-intro">
               <div>
-                <p className="eyebrow light">Production with proof</p>
-                <h2>Content should do more than look finished.</h2>
+                <p className="eyebrow light">Podcast Starter Kit · proof of reach</p>
+                <h2>A launch built to get your podcast seen.</h2>
               </div>
-              <p>These are real results from content produced through VIRGO’s workflow—showing what happens when the recording, edit and launch work as one system.</p>
+              <p>These are real VIRGO channel results—not stock examples. They show the visibility a coordinated recording, editing and launch workflow can create.</p>
             </div>
             <div className="results-grid">
               <figure>
@@ -287,15 +289,15 @@ export default function Home() {
                 <figcaption><strong>3.6K views</strong><span>3.4K more than the channel’s usual performance</span></figcaption>
               </figure>
               <figure>
-                <img src="/assets/creator-results-channel.webp" alt="YouTube Studio analytics showing 2.8 thousand views and 156.9 watch hours in 28 days" loading="lazy" />
-                <figcaption><strong>2.8K views · 156.9 hours</strong><span>Real audience growth across a 28-day period</span></figcaption>
+                <img src="/assets/podcast-starter-kit-results.webp" alt="YouTube Studio analytics showing 3,246 views, 125 watch hours and 8 new subscribers in 28 days" loading="lazy" />
+                <figcaption><strong>3,246 views · 125 watch hours</strong><span>Recent VIRGO channel performance across 28 days</span></figcaption>
               </figure>
             </div>
             <div className="guarantee-card">
-              <p className="eyebrow light">Creator Starter Kit guarantee</p>
+              <p className="eyebrow light">Podcast Starter Kit guarantee</p>
               <h3>100 real viewers—or your money back.</h3>
-              <p>The guarantee applies only to Creator Starter Kit content produced and distributed through VIRGO-managed channels. Final terms are confirmed in the booking agreement.</p>
-              <a className="button button-primary" href="/book#creator-kit">Build your creator launch <span aria-hidden="true">→</span></a>
+              <p>We guarantee at least 100 combined organic views across the short-form launch clips included with your Podcast Starter Kit within 30 days of the first post. If we miss that mark, we refund your Podcast Starter Kit fee. No purchased views and no bots. Recent performance is evidence of our work, not a promise of identical results.</p>
+              <a className="button button-primary" href="/book#podcast-starter-kit">Book the Podcast Starter Kit <span aria-hidden="true">→</span></a>
             </div>
           </div>
         </section>
@@ -324,8 +326,8 @@ export default function Home() {
             <div className="faq-list">
               <details><summary>How fast will I receive my video?</summary><p>Videos recorded in the studio are delivered in less than 24 hours. Larger packages or advanced graphics may need a custom timeline.</p></details>
               <details><summary>Can a remote guest join?</summary><p>Yes. We can bring a remote guest into the conversation with clean audio and video.</p></details>
-              <details><summary>What is the Creator Starter Kit?</summary><p>It combines a one-hour recording session, finished social content and a managed launch designed to get your work in front of real viewers.</p></details>
-              <details><summary>How does the 100-viewer guarantee work?</summary><p>It applies only to Creator Starter Kit content distributed through VIRGO-managed channels. The exact deliverables and guarantee terms are included in your booking agreement.</p></details>
+              <details><summary>What is the Podcast Starter Kit?</summary><p>It combines a studio recording, a polished full episode, vertical social edits and a managed launch designed to introduce your podcast to real viewers.</p></details>
+              <details><summary>How does the 100-viewer guarantee work?</summary><p>We guarantee at least 100 combined organic views across the short-form launch clips included with your Podcast Starter Kit within 30 days of the first post. If we miss that mark, we refund your Podcast Starter Kit fee. Final deliverables are confirmed in your booking agreement.</p></details>
             </div>
           </div>
         </section>
