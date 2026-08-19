@@ -51,13 +51,13 @@ const families = [
 ];
 
 export const PODCAST_WEEK_PACKAGE_ID = "podcast-week-2026";
-export const PODCAST_WEEK_START = "2026-08-14";
-export const PODCAST_WEEK_END = "2026-08-20";
+export const PODCAST_WEEK_START = "2026-08-19";
+export const PODCAST_WEEK_END = "2026-08-25";
 
 export const BOOKING_PACKAGES: BookingPackage[] = [
   {
     id: PODCAST_WEEK_PACKAGE_ID,
-    family: "August 14–20 only",
+    family: "August 19–25 only",
     title: "$10 Start Your Own Podcast Week",
     durationLabel: "1 hour",
     durationMinutes: 60,
