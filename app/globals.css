@@ -76,6 +76,17 @@ p { margin-top: 0; }
 .proof-strip strong { font-size: 1.2rem; }
 .proof-strip span { margin-top: 5px; color: #98a8bb; font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; }
 
+.home-therapy-spotlight { padding: 104px 0; overflow: hidden; background: radial-gradient(circle at 95% 15%, rgba(47,111,222,.28), transparent 32%), var(--navy); color: #fff; }
+.home-therapy-grid { display: grid; grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); gap: 92px; align-items: center; }
+.home-therapy-visual { position: relative; margin: 0; padding: 0 34px 34px 0; }
+.home-therapy-visual::before { content: ""; position: absolute; inset: 45px 0 0 50px; border: 1px solid rgba(255,255,255,.16); }
+.home-therapy-visual img { position: relative; z-index: 1; width: 100%; height: 520px; object-fit: cover; object-position: center; box-shadow: 0 30px 90px rgba(0,0,0,.3); }
+.home-therapy-visual figcaption { position: absolute; z-index: 2; right: 0; bottom: 0; max-width: 360px; padding: 20px 24px; background: var(--amber); color: var(--ink); font-size: .7rem; font-weight: 800; letter-spacing: .05em; line-height: 1.55; }
+.home-therapy-copy h2 { max-width: 710px; font-size: clamp(3rem, 5vw, 5.25rem); }
+.home-therapy-lead { max-width: 680px; margin: 30px 0 18px; color: #d2dbe7; font-size: 1.08rem; line-height: 1.8; }
+.home-therapy-copy > p:not(.eyebrow):not(.home-therapy-lead):not(.home-therapy-note) { max-width: 650px; margin: 0 0 32px; color: #9fadc0; line-height: 1.8; }
+.home-therapy-note { margin: 20px 0 0; color: #8090a6; font-size: .67rem; letter-spacing: .04em; }
+
 .promo-details { padding: 100px 0; background: var(--amber); color: var(--ink); }
 .promo-details-grid { display: grid; grid-template-columns: .92fr 1.08fr; gap: 100px; align-items: start; }
 .promo-details .eyebrow { color: #53340e; }
@@ -172,8 +183,6 @@ p { margin-top: 0; }
 .price-card h3 { margin: 10px 0 15px; font-family: Georgia, serif; font-size: 1.7rem; font-weight: 500; }
 .price-description { min-height: 106px; color: var(--muted); font-size: .83rem; line-height: 1.65; }
 .featured .price-description { color: #aeb9c8; }
-.price-guarantee { display: flex; align-items: center; gap: 8px; margin: 2px 0 0; color: #123d7e; font-size: .73rem; font-weight: 850; line-height: 1.35; }
-.price-guarantee span { display: grid; flex: 0 0 22px; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--blue); color: #fff; font-size: .7rem; }
 .price { display: flex; align-items: baseline; gap: 7px; margin: 24px 0 25px; }
 .price strong { font-family: Georgia, serif; font-size: 3.35rem; font-weight: 500; line-height: 1; }
 .price span { color: var(--muted); font-size: .75rem; }
@@ -454,6 +463,8 @@ html.reveal-ready .pricing-grid .price-card:nth-child(4) { transition-delay: .24
   .therapy-listening-feature { grid-template-columns: 1fr; }
   .therapy-listening-feature figure { min-height: 480px; }
   .therapy-boundary-grid { grid-template-columns: 1fr; gap: 24px; }
+  .home-therapy-grid { grid-template-columns: 1fr; gap: 62px; }
+  .home-therapy-visual { max-width: 720px; }
 }
 
 @media (max-width: 680px) {
@@ -546,6 +557,14 @@ html.reveal-ready .pricing-grid .price-card:nth-child(4) { transition-delay: .24
   .therapy-process-grid article, .therapy-process-grid article + article { padding: 28px 0; border-left: 0; border-bottom: 1px solid var(--line); }
   .therapy-process-grid h3 { margin-top: 28px; }
   .therapy-boundary { padding: 72px 0; }
+  .home-therapy-spotlight { padding: 76px 0; }
+  .home-therapy-grid { gap: 48px; }
+  .home-therapy-visual { padding: 0 18px 28px 0; }
+  .home-therapy-visual::before { display: none; }
+  .home-therapy-visual img { height: 380px; }
+  .home-therapy-visual figcaption { max-width: calc(100% - 32px); padding: 17px 19px; }
+  .home-therapy-copy h2 { font-size: clamp(2.8rem, 13vw, 4.4rem); }
+  .home-therapy-lead { font-size: .96rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
