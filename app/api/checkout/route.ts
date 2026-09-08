@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { BOOKING_BUFFER_MINUTES, getBookingPackage, HOLD_MINUTES, STUDIO_TIME_ZONE } from "../../../lib/booking-config";
+import { BOOKING_BUFFER_MINUTES, getBookingPackage, getStudioClosure, HOLD_MINUTES, STUDIO_TIME_ZONE } from "../../../lib/booking-config";
 import { getPool } from "../../../lib/db";
 
 export const runtime = "nodejs";
@@ -29,6 +29,10 @@ export async function POST(request: Request) {
   const name = body.customerName?.trim();
   if (!bookingPackage || !start.isValid || !email || !name || !email.includes("@")) {
     return NextResponse.json({ error: "Please complete all required fields." }, { status: 400 });
+  }
+  const closure = getStudioClosure(start.toISODate() ?? "");
+  if (closure) {
+    return NextResponse.json({ error: `The studio is closed for ${closure}. Please choose another date.` }, { status: 409 });
   }
   if (start < DateTime.now().setZone(STUDIO_TIME_ZONE).plus({ hours: 2 })) {
     return NextResponse.json({ error: "That time is no longer available." }, { status: 409 });

@@ -1,5 +1,13 @@
 export const STUDIO_TIME_ZONE = "America/New_York";
 
+export const STUDIO_CLOSED_DATES: Record<string, string> = {
+  "2026-09-21": "Yom Kippur",
+  "2026-09-26": "Sukkot I",
+  "2026-09-27": "Sukkot II",
+};
+
+export const getStudioClosure = (date: string) => STUDIO_CLOSED_DATES[date];
+
 export type BookingPackage = {
   id: string;
   family: string;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
-import { BOOKING_PACKAGES, formatPrice } from "../../lib/booking-config";
+import { BOOKING_PACKAGES, formatPrice, getStudioClosure } from "../../lib/booking-config";
 
 const dateKey = (date: Date) => {
   const year = date.getFullYear();
@@ -17,7 +17,7 @@ const initialDates = () => {
   for (let offset = 1; dates.length < 21; offset += 1) {
     const candidate = new Date(cursor);
     candidate.setDate(cursor.getDate() + offset);
-    if (candidate.getDay() !== 0 && candidate.getDay() !== 6) dates.push(candidate);
+    if (candidate.getDay() !== 0 && candidate.getDay() !== 6 && !getStudioClosure(dateKey(candidate))) dates.push(candidate);
   }
   return dates;
 };
