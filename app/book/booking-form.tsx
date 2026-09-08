@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
-import { BOOKING_PACKAGES, formatPrice, PODCAST_WEEK_END, PODCAST_WEEK_PACKAGE_ID } from "../../lib/booking-config";
+import { BOOKING_PACKAGES, formatPrice } from "../../lib/booking-config";
 
 const dateKey = (date: Date) => {
   const year = date.getFullYear();
@@ -25,9 +25,9 @@ const initialDates = () => {
 export function BookingForm() {
   const [dates] = useState(initialDates);
   const families = [...new Set(BOOKING_PACKAGES.map((item) => item.title))];
-  const [family, setFamily] = useState("$10 Start Your Own Podcast Week");
+  const [family, setFamily] = useState("Studio session");
   const variants = BOOKING_PACKAGES.filter((item) => item.title === family);
-  const [packageId, setPackageId] = useState(PODCAST_WEEK_PACKAGE_ID);
+  const [packageId, setPackageId] = useState("studio-session-1-hour");
   const [date, setDate] = useState(dateKey(dates[0]));
   const [slots, setSlots] = useState<string[]>([]);
   const [slot, setSlot] = useState("");
@@ -35,7 +35,7 @@ export function BookingForm() {
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
   const selectedPackage = BOOKING_PACKAGES.find((item) => item.id === packageId)!;
-  const visibleDates = packageId === PODCAST_WEEK_PACKAGE_ID ? dates.filter((item) => dateKey(item) <= PODCAST_WEEK_END) : dates;
+  const visibleDates = dates;
 
   useEffect(() => {
     const controller = new AbortController();

@@ -14,9 +14,9 @@ export default function BookPage() {
       <main className="booking-page">
         <section className="booking-hero">
           <div className="container booking-hero-inner">
-            <p className="eyebrow light">August 19–25, 2026 · New clients only</p>
-            <h1>$10 Start Your Own Podcast Week</h1>
-            <p>Choose an available promotional time and reserve your one-hour professional studio recording session securely.</p>
+            <p className="eyebrow light">Midtown Manhattan · Live availability</p>
+            <h1>Choose your package. Reserve your studio.</h1>
+            <p>Select the level of production you need, choose an available time and reserve your session securely.</p>
           </div>
         </section>
         <section className="creator-booking-callout" id="podcast-starter-kit">

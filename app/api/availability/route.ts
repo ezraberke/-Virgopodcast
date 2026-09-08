@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { NextRequest, NextResponse } from "next/server";
 import { getCalendarBusy } from "../../../lib/calendar";
-import { getBookingPackage, isPodcastWeekDate, PODCAST_WEEK_PACKAGE_ID, STUDIO_TIME_ZONE } from "../../../lib/booking-config";
+import { getBookingPackage, STUDIO_TIME_ZONE } from "../../../lib/booking-config";
 import { getPool } from "../../../lib/db";
 import { slotsForDate, type BusyWindow } from "../../../lib/availability";
 
@@ -13,8 +13,6 @@ export async function GET(request: NextRequest) {
   const bookingPackage = getBookingPackage(packageId);
   const day = DateTime.fromISO(date, { zone: STUDIO_TIME_ZONE });
   if (!bookingPackage || !day.isValid) return NextResponse.json({ error: "Invalid booking request" }, { status: 400 });
-  if (packageId === PODCAST_WEEK_PACKAGE_ID && !isPodcastWeekDate(date)) return NextResponse.json({ slots: [] });
-
   const dayStart = day.startOf("day");
   const dayEnd = day.endOf("day");
   const busy: BusyWindow[] = await getCalendarBusy(dayStart.toJSDate(), dayEnd.toJSDate());

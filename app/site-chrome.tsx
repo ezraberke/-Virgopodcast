@@ -2,13 +2,6 @@ import Link from "next/link";
 
 export function Header() {
   return (
-    <>
-    <aside className="promo-bar" aria-label="$10 Start Your Own Podcast Week promotion">
-      <div className="container promo-bar-inner">
-        <p><strong>$10 Start Your Own Podcast Week</strong><span>August 19–25, 2026 · Limited sessions</span></p>
-        <Link href="/book?promo=podcast-week#booking-calendar">Book your $10 session <span aria-hidden="true">→</span></Link>
-      </div>
-    </aside>
     <header className="site-header">
       <div className="container header-inner">
         <Link className="brand" href="/" aria-label="VIRGO Podcast Studio home">
@@ -16,18 +9,17 @@ export function Header() {
           <span><strong>VIRGO</strong><small>Podcast Studio</small></span>
         </Link>
         <nav aria-label="Primary navigation">
-          <Link href="/work">Our work</Link>
-          <Link href="/#studio">Studio</Link>
-          <Link href="/#services">Services</Link>
-          <Link href="/#pricing">Pricing</Link>
-          <Link href="/podcast-therapy">Podcast Therapy</Link>
-          <Link href="/#location">Location</Link>
-          <Link href="/book">Book</Link>
+          <Link href="/#packages">Packages</Link>
+          <Link href="/audience-growth">Grow</Link>
+          <Link href="/#work">Work</Link>
+          <Link href="/#technology">Technology</Link>
+          <Link href="/#location">Visit</Link>
+          <Link href="/#faq">FAQ</Link>
+          <Link href="/#podcast-therapy">Therapy</Link>
         </nav>
-        <Link className="header-call" href="/book?promo=podcast-week#booking-calendar"><span>Book the promotion</span><strong>$10 studio session</strong></Link>
+        <Link className="header-call" href="/book"><span>See live availability</span><strong>Book the studio</strong></Link>
       </div>
     </header>
-    </>
   );
 }
 
@@ -42,7 +34,7 @@ export function Footer() {
           </Link>
           <p>Professional podcast and video production in a comfortable Midtown Manhattan studio.</p>
         </div>
-        <div><h3>Explore</h3><Link href="/work">Our work</Link><Link href="/#studio">The studio</Link><Link href="/#services">Services</Link><Link href="/#pricing">Pricing</Link><Link href="/podcast-therapy">Podcast Therapy</Link><Link href="/book">Book online</Link></div>
+        <div><h3>Explore</h3><Link href="/#packages">Packages</Link><Link href="/audience-growth">Audience growth</Link><Link href="/work">Our work</Link><Link href="/#technology">Technology</Link><Link href="/podcast-therapy">Podcast Therapy</Link><Link href="/book">Book online</Link></div>
         <div><h3>Visit</h3><p>1345 Avenue of the Americas<br />2nd Floor<br />New York, NY</p></div>
         <div><h3>Start a project</h3><a href="tel:+12149036838">(214) 903-6838</a><a href="mailto:ezraberke@virgopodcast.com">ezraberke@virgopodcast.com</a><span>Free consultations</span></div>
       </div>
