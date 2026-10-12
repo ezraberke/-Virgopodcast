@@ -1,34 +1,17 @@
-# VIRGO Podcast Studio website
-
-This folder is ready to upload to a GitHub repository and deploy through Vercel.
-
-## Upload
-
-1. Add every file and folder here to the root of your GitHub repository.
-2. Commit the changes to the branch connected to Vercel.
-3. Vercel will detect the Next.js project and deploy it automatically.
-
-No environment variables or database setup are required.
-
-## Included
-
-- Redesigned VIRGO Podcast Studio homepage
-- “Our Work” portfolio page
-- 2025 NBA Redraft, Lessons in Bible #3, and the Ace Bailey social edit
-- Less-than-24-hour delivery messaging
-- Free consultation phone links for (214) 903-6838
-- Responsive desktop and mobile layouts
 # VIRGO Podcast Studio
 
-## Booking system setup
+Next.js website deployed to Vercel from the connected GitHub repository.
 
-The `/book` flow uses Stripe Checkout, Neon Postgres and Google Calendar. It is safe to deploy as a preview before credentials are configured; checkout remains unavailable until the required server-side variables exist.
+## Booking
 
-1. Create a Neon Postgres database and run `db/schema.sql` in its SQL editor.
-2. Copy the values from `.env.example` into Vercel → Project Settings → Environment Variables.
-3. Create a separate Google Calendar named `Virgo Podcast Bookings`.
-4. Create a Google Cloud service account, enable the Google Calendar API and share the booking calendar with the service account email using “Make changes to events.”
-5. Create a Stripe webhook at `https://virgopodcast.com/api/stripe/webhook` for `checkout.session.completed` and `checkout.session.expired`.
-6. Use Stripe test keys for the preview deployment. Replace them with live keys only after a full test booking.
+All booking calls to action open an email draft to ezraberke@virgopodcast.com. Availability and package details are confirmed by email; payment is made on site on the day of the session. The former checkout API returns HTTP 410 and cannot create a payment. Historical success/cancel URLs redirect to the email booking page.
 
-Normal hours, buffers and all packages/prices are centralized in `lib/booking-config.ts`.
+The signed Stripe webhook remains only to settle any payment already initiated before checkout was retired. No website flow creates a new Stripe session. Existing booking records and calendar integrations are preserved.
+
+## Development
+
+Install with `npm ci`, run `npm run dev`, and verify a production build with `npm run build`.
+
+## October 2026 refresh
+
+Updated studio photographs supplied by the owner, cleaner homepage and shared navigation, and a location feature about the building’s appearance as Dunder Mifflin’s corporate exterior in The Office. The exterior image is the owner-supplied photograph; it is not presented as a television still. Location reference: https://sites.google.com/site/theofficefilmlocations/home/season-5

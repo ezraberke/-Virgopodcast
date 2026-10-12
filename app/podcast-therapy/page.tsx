@@ -1,3 +1,4 @@
+import { bookingEmail } from "../../lib/contact";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer, Header } from "../site-chrome";
@@ -8,13 +9,13 @@ export const metadata: Metadata = {
     "A guided, non-clinical wellness experience built around reflection, self-expression, and telling your story in a professionally produced podcast.",
 };
 
-const bookingLink = "/book?experience=podcast-therapy#booking-calendar";
+const bookingLink = bookingEmail("Podcast Therapy");
 
 export default function PodcastTherapyPage() {
   return (
     <>
       <Header />
-      <main className="podcast-therapy-page">
+      <main id="main-content" className="podcast-therapy-page">
         <section className="therapy-hero">
           <div className="container therapy-hero-grid">
             <div className="therapy-hero-copy">
@@ -39,8 +40,8 @@ export default function PodcastTherapyPage() {
             </div>
             <figure className="therapy-hero-visual">
               <img
-                src="/assets/studio-camera-bts-2026.webp"
-                alt="A guest speaking into a studio microphone during a podcast recording"
+                src="/assets/studio-detail-october-2026.webp"
+                alt="VIRGO’s current lounge set with a blue armchair, microphone and bookshelf"
               />
               <figcaption>
                 <span>One room.</span>
@@ -159,8 +160,8 @@ export default function PodcastTherapyPage() {
             <div className="image-stack">
               <img
                 className="image-main image-main-landscape"
-                src="/assets/studio-hero-2026.webp"
-                alt="The VIRGO podcast studio set with two blue chairs and professional microphones"
+                src="/assets/studio-lounge-october-2026.webp"
+                alt="VIRGO’s current studio set with blue armchairs, a gray sofa and studio microphones"
               />
               <div className="image-note"><span>60–90</span>minutes to speak without rushing</div>
             </div>

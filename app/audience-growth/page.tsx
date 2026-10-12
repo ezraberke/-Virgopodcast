@@ -1,3 +1,4 @@
+import { BOOKING_EMAIL, bookingEmail } from "../../lib/contact";
 import type { Metadata } from "next";
 import { Footer, Header } from "../site-chrome";
 
@@ -55,7 +56,7 @@ export default function AudienceGrowthPage() {
   return (
     <>
       <Header />
-      <main className="growth-page">
+      <main id="main-content" className="growth-page">
         <section className="growth-hero">
           <div className="container growth-hero-grid">
             <div>
@@ -64,7 +65,7 @@ export default function AudienceGrowthPage() {
               <p>Analytics are most useful when they change a creative decision. Use this guide to connect the signals in your dashboard to your title, opening, pacing and follow-up content.</p>
               <div className="button-row">
                 <a className="button button-primary" href="#signal-guide">Read the signal guide <span aria-hidden="true">↓</span></a>
-                <a className="button button-ghost" href="/book">Build a launch with VIRGO <span aria-hidden="true">→</span></a>
+                <a className="button button-ghost" href={BOOKING_EMAIL}>Build a launch with VIRGO <span aria-hidden="true">→</span></a>
               </div>
             </div>
             <div className="growth-hero-scorecard" aria-label="Audience growth framework">
@@ -153,7 +154,7 @@ export default function AudienceGrowthPage() {
             <h2>Build the next episode around what your audience is telling you.</h2>
             <p>The Podcast Starter Kit combines studio production, finished social clips and a managed launch so the learning continues after the record button stops.</p>
             <div className="button-row centered-buttons">
-              <a className="button button-primary" href="/book#podcast-starter-kit">Book the Podcast Starter Kit</a>
+              <a className="button button-primary" href={bookingEmail("Podcast Starter Kit")}>Book the Podcast Starter Kit</a>
               <a className="button button-ghost" href="/work">See recent work</a>
             </div>
           </div>

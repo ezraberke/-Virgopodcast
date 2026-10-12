@@ -1,3 +1,4 @@
+import { BOOKING_EMAIL } from "../../lib/contact";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer, Header } from "../site-chrome";
@@ -11,7 +12,7 @@ export default function WorkPage() {
   return (
     <>
       <Header />
-      <main className="work-page">
+      <main id="main-content" className="work-page">
         <section className="work-hero">
           <div className="container work-hero-inner">
             <p className="eyebrow light">Our work</p>
@@ -112,8 +113,8 @@ export default function WorkPage() {
             <h2>Reserve the room. Build the story.</h2>
             <p>Choose your package and reserve a time directly through the live studio calendar.</p>
             <div className="button-row centered-buttons">
-              <Link className="button button-primary" href="/book">Book the studio</Link>
-              <Link className="button button-ghost" href="/#pricing">Compare packages</Link>
+              <Link className="button button-primary" href={BOOKING_EMAIL}>Book the studio</Link>
+              <Link className="button button-ghost" href="/#packages">Compare packages</Link>
             </div>
           </div>
         </section>
