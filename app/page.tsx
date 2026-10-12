@@ -44,13 +44,13 @@ export default function Home() {
           <div className="container intro-grid">
             <div className="intro-copy">
               <p className="eyebrow">Podcast &amp; video studio · Midtown NYC</p>
-              <h1>Great stories<br />start here<span>.</span></h1>
+              <h1>Let’s make<br />what you do best,<br /><span>look its best.</span></h1>
               <p className="intro-lead">A comfortable room. A dedicated producer. Everything you need to record your next great conversation.</p>
               <div className="button-row">
                 <a className="button button-primary" href={BOOKING_PAGE}>Book a session <span aria-hidden="true">↗</span></a>
                 <a className="text-link" href="#packages">Explore packages <span aria-hidden="true">↓</span></a>
               </div>
-              <p className="pay-note">Pay on site on the day of your session.</p>
+              <p className="pay-note">Open every day, including weekends. Pay on site, day of.</p>
             </div>
             <figure className="intro-photo">
               <img src="/assets/studio-lounge-october-2026.webp" alt="The current VIRGO studio: two blue armchairs, a gray sofa, microphones and a cream coffee table against softly lit black curtains" width="1448" height="1086" fetchPriority="high" />
@@ -126,7 +126,14 @@ export default function Home() {
               <article className="clip-card clip-card-vertical"><video controls preload="none" poster="/posters/ai-physical-world.jpg" playsInline aria-label="AI Enters the Physical World podcast reel"><source src="/videos/ai-physical-world-reel.mp4" type="video/mp4" /></video><div><p>Technology · vertical edit</p><h3>AI Enters the Physical World</h3><span>Supporting visuals &amp; story edit</span></div></article>
               <article className="clip-card clip-card-wide"><iframe src="https://www.youtube.com/embed/j0mB_KZjdDA" title="2025 NBA Redraft produced by VIRGO Podcast Studio" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /><div><p>Sports · full episode</p><h3>2025 NBA Redraft</h3><span>Multi-camera edit &amp; audio polish</span></div></article>
             </div>
-            <div className="explore-more"><article id="audience"><p className="eyebrow">After you publish</p><h3>Build your audience.</h3><p>Turn titles, thumbnails and retention data into practical ideas for your next episode.</p><a className="text-link" href="/audience-growth">Explore the Audience Growth Lab ↗</a></article><article id="podcast-therapy"><p className="eyebrow">A space to reflect</p><h3>Tell your own story.</h3><p>Explore Podcast Therapy, our guided, non-clinical storytelling and wellness experience.</p><a className="text-link" href="/podcast-therapy">Explore Podcast Therapy ↗</a></article></div>
+            <div className="explore-more explore-more-single"><article id="audience"><p className="eyebrow">After you publish</p><h3>Build your audience.</h3><p>Turn titles, thumbnails and retention data into practical ideas for your next episode.</p><a className="text-link" href="/audience-growth">Explore the Audience Growth Lab ↗</a></article></div>
+          </div>
+        </section>
+
+        <section className="section therapy-preview" id="podcast-therapy">
+          <div className="container therapy-preview-grid">
+            <figure><img src="/assets/studio-detail-october-2026.webp" alt="A welcoming seat and microphone in VIRGO’s current studio" width="1086" height="1448" loading="lazy" /></figure>
+            <div><p className="eyebrow">Introducing Podcast Therapy</p><h2>Your story.<br />Room to be heard.</h2><p>A guided conversation about the moments that matter to you. Reflect, record and create something personal—with a producer to help you find the words.</p><p>Keep your episode for yourself or choose to share it. The story, and the final say, are yours.</p><a className="button button-primary" href="/podcast-therapy">Explore Podcast Therapy <span aria-hidden="true">↗</span></a><small>A creative storytelling experience, guided by a producer. A non-clinical service.</small></div>
           </div>
         </section>
 
@@ -135,6 +142,7 @@ export default function Home() {
           <details><summary>What comes with a studio session?</summary><p>Your session includes an on-site producer, three-camera recording, microphones, studio lighting and multitrack audio. Studio Session includes raw footage; the other packages include editing.</p></details>
           <details><summary>When will I receive my edited episode?</summary><p>Ready-to-publish videos recorded in the studio are delivered in less than 24 hours. Larger packages, custom sets and advanced graphics may need a custom timeline.</p></details>
           <details><summary>Can a remote guest join?</summary><p>Yes. We can bring a remote guest into the conversation and capture audio and video for the edit. Email us ahead of your session so we can prepare.</p></details>
+          <details><summary>Are you open on weekends?</summary><p>Yes. Studio hours are 9 a.m.–6 p.m., Monday through Sunday, in New York time. The booking calendar shows available sessions around existing appointments.</p></details>
           <details><summary>What should I bring?</summary><p>Bring your topic, notes and any brand assets you’d like included. We handle the cameras, microphones, lighting and production.</p></details>
         </div></div></section>
         <section className="ready-section"><div className="container ready-inner"><div><p className="eyebrow">Let’s make something worth hearing.</p><h2>Your next episode.<br />Make time for it.</h2></div><div><a className="button button-primary" href={BOOKING_PAGE}>Book your session <span aria-hidden="true">↗</span></a><p>Pay on site, on the day.</p><a className="email-address" href={BOOKING_EMAIL}>ezraberke@virgopodcast.com</a></div></div></section>

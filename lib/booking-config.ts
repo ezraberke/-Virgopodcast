@@ -79,16 +79,17 @@ export const formatPrice = (priceCents: number) =>
     priceCents / 100,
   );
 
-// This is the single place to change normal studio hours.
-// 0 = Sunday. Longer packages only appear when they fit before closing.
+// Reference hours for the retired booking integration.
+// Live availability and conflicts are managed in the Google Calendar appointment schedule.
+// 0 = Sunday; the studio is open seven days a week.
 export const BUSINESS_HOURS: Record<number, { open: string; close: string } | null> = {
-  0: null,
+  0: { open: "09:00", close: "18:00" },
   1: { open: "09:00", close: "18:00" },
   2: { open: "09:00", close: "18:00" },
   3: { open: "09:00", close: "18:00" },
   4: { open: "09:00", close: "18:00" },
   5: { open: "09:00", close: "18:00" },
-  6: null,
+  6: { open: "09:00", close: "18:00" },
 };
 
 export const SLOT_INTERVAL_MINUTES = 30;

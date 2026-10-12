@@ -898,3 +898,70 @@ a:focus-visible, summary:focus-visible, button:focus-visible { outline: 3px soli
 .longer-session p:not(.eyebrow) { max-width: 650px; color: #536075; margin-top: 15px; }
 .longer-session .button { flex-shrink: 0; }
 @media (max-width: 760px) { .calendar-heading, .longer-session { align-items: start; flex-direction: column; } .calendar-frame iframe { height: 900px; } }
+
+/* Podcast Therapy and the studio's seven-day opening hours. */
+.intro-copy h1 { font-size: clamp(3.2rem, 4.6vw, 4.65rem); line-height: 1.07; }
+.clean-header nav { gap: 24px; white-space: nowrap; }
+.explore-more-single { grid-template-columns: 1fr; }
+.explore-more-single p:not(.eyebrow) { max-width: 650px; }
+.therapy-preview { background: #e9eef9; }
+.therapy-preview-grid { display: grid; grid-template-columns: .8fr 1.2fr; align-items: center; gap: 95px; }
+.therapy-preview figure { margin: 0; }
+.therapy-preview img { width: 100%; height: 450px; object-fit: cover; object-position: 50% 27%; border-radius: 3px; }
+.therapy-preview p:not(.eyebrow) { color: #536075; max-width: 570px; margin: 22px 0; }
+.therapy-preview .button { margin-top: 8px; }
+.therapy-preview small { display: block; max-width: 470px; color: #58657a; font-size: .73rem; margin-top: 20px; }
+.story-page { background: var(--paper); }
+.story-page figure { margin: 0; }
+.story-hero { padding: 60px 0 0; background: var(--cream); }
+.story-hero-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 95px; }
+.story-hero h1 { font-size: clamp(4.5rem, 7.2vw, 7.1rem); }
+.story-hero h1 span { color: var(--blue); }
+.story-hero-copy > p:not(.eyebrow) { color: #536075; max-width: 470px; }
+.story-hero-copy > .story-lead { margin: 25px 0 17px; }
+.story-lead { font-size: 1.25rem; line-height: 1.65; }
+.story-hero-copy .button-row { margin-top: 28px; gap: 22px; }
+.story-hero-copy .pay-note { font-size: .75rem; }
+.story-hero-photo img { width: 100%; height: 585px; object-fit: cover; object-position: 50% 32%; border-radius: 3px; }
+.story-page figcaption { margin-top: 12px; font-size: .7rem; color: #5d6879; }
+.story-principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; border-top: 1px solid var(--line); padding: 28px 0; margin-top: 45px; font-size: .8rem; }
+.story-principles span:not(:first-child) { border-left: 1px solid var(--line); padding-left: 24px; }
+.story-intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 95px; }
+.story-intro-grid > div > p:not(.eyebrow) { color: #536075; margin-bottom: 22px; }
+.story-choice { background: #e9eef9; }
+.story-choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+.story-choice-grid article { padding-top: 25px; border-top: 1px solid #bfcde5; }
+.story-number { color: var(--blue); font-size: .72rem; letter-spacing: .08em; }
+.story-page h3 { font-size: 2rem; letter-spacing: -.035em; line-height: 1.15; margin: 20px 0 17px; }
+.story-choice-grid p, .story-steps p { color: #536075; font-size: .94rem; line-height: 1.8; }
+.story-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 52px; }
+.story-steps article { border-top: 1px solid var(--line); padding-top: 24px; }
+.story-page .story-room { margin-top: 55px; }
+.story-room img { width: 100%; max-height: 600px; object-fit: cover; object-position: 50% 52%; border-radius: 3px; }
+.story-details { background: var(--cream); }
+.story-details .equipment-list { margin-top: 0; }
+.story-details .equipment-list div { grid-template-columns: 110px 1fr; }
+.story-page .faq-list p a { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 1050px) {
+  .clean-header nav { gap: 16px; font-size: .76rem; }
+  .intro-copy h1 { font-size: clamp(2.8rem, 4.7vw, 4.4rem); }
+  .therapy-preview-grid, .story-hero-grid, .story-intro-grid { gap: 45px; }
+  .story-hero-photo img { height: 520px; }
+  .story-hero h1 { font-size: clamp(4rem, 7vw, 5.8rem); }
+}
+@media (max-width: 760px) {
+  .clean-header nav { flex-wrap: wrap; justify-content: flex-start; gap: 10px 18px; font-size: .73rem; }
+  .intro-copy h1 { font-size: clamp(2.7rem, 9.6vw, 4.9rem); }
+  .therapy-preview-grid, .story-hero-grid, .story-intro-grid, .story-choice-grid, .story-steps { grid-template-columns: 1fr; gap: 35px; }
+  .therapy-preview img { height: 390px; }
+  .story-hero { padding-top: 35px; }
+  .story-hero h1 { font-size: clamp(4rem, 17vw, 6rem); }
+  .story-lead { font-size: 1.12rem; }
+  .story-hero-photo img { height: 470px; }
+  .story-principles { grid-template-columns: 1fr; gap: 14px; margin-top: 28px; }
+  .story-principles span:not(:first-child) { border: 0; padding-left: 0; }
+  .story-page .story-room { margin-top: 35px; }
+  .story-room img { min-height: 280px; }
+  .story-page .ready-inner { gap: 30px; }
+  .story-details .equipment-list div { grid-template-columns: 90px 1fr; }
+}
