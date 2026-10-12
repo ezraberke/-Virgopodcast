@@ -1,4 +1,4 @@
-import { BOOKING_EMAIL, bookingEmail } from "../../lib/contact";
+import { BOOKING_PAGE } from "../../lib/booking-links";
 import type { Metadata } from "next";
 import { Footer, Header } from "../site-chrome";
 
@@ -65,7 +65,7 @@ export default function AudienceGrowthPage() {
               <p>Analytics are most useful when they change a creative decision. Use this guide to connect the signals in your dashboard to your title, opening, pacing and follow-up content.</p>
               <div className="button-row">
                 <a className="button button-primary" href="#signal-guide">Read the signal guide <span aria-hidden="true">↓</span></a>
-                <a className="button button-ghost" href={BOOKING_EMAIL}>Build a launch with VIRGO <span aria-hidden="true">→</span></a>
+                <a className="button button-ghost" href={BOOKING_PAGE}>Build a launch with VIRGO <span aria-hidden="true">→</span></a>
               </div>
             </div>
             <div className="growth-hero-scorecard" aria-label="Audience growth framework">
@@ -154,7 +154,7 @@ export default function AudienceGrowthPage() {
             <h2>Build the next episode around what your audience is telling you.</h2>
             <p>The Podcast Starter Kit combines studio production, finished social clips and a managed launch so the learning continues after the record button stops.</p>
             <div className="button-row centered-buttons">
-              <a className="button button-primary" href={bookingEmail("Podcast Starter Kit")}>Book the Podcast Starter Kit</a>
+              <a className="button button-primary" href={BOOKING_PAGE}>Book the Podcast Starter Kit</a>
               <a className="button button-ghost" href="/work">See recent work</a>
             </div>
           </div>

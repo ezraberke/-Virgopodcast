@@ -1,4 +1,4 @@
-import { bookingEmail } from "../../lib/contact";
+import { BOOKING_PAGE } from "../../lib/booking-links";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer, Header } from "../site-chrome";
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     "A guided, non-clinical wellness experience built around reflection, self-expression, and telling your story in a professionally produced podcast.",
 };
 
-const bookingLink = bookingEmail("Podcast Therapy");
+const bookingLink = BOOKING_PAGE;
 
 export default function PodcastTherapyPage() {
   return (

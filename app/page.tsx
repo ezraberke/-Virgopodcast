@@ -1,5 +1,6 @@
 import { Footer, Header } from "./site-chrome";
-import { BOOKING_EMAIL, bookingEmail } from "../lib/contact";
+import { BOOKING_EMAIL } from "../lib/contact";
+import { BOOKING_PAGE } from "../lib/booking-links";
 
 const packages = [
   {
@@ -46,7 +47,7 @@ export default function Home() {
               <h1>Great stories<br />start here<span>.</span></h1>
               <p className="intro-lead">A comfortable room. A dedicated producer. Everything you need to record your next great conversation.</p>
               <div className="button-row">
-                <a className="button button-primary" href={BOOKING_EMAIL}>Book by email <span aria-hidden="true">↗</span></a>
+                <a className="button button-primary" href={BOOKING_PAGE}>Book a session <span aria-hidden="true">↗</span></a>
                 <a className="text-link" href="#packages">Explore packages <span aria-hidden="true">↓</span></a>
               </div>
               <p className="pay-note">Pay on site on the day of your session.</p>
@@ -85,7 +86,7 @@ export default function Home() {
         <section className="section pricing-section" id="packages">
           <div className="container">
             <div className="section-heading price-heading"><div><p className="eyebrow">Clear options. Personal support.</p><h2>Record. Publish. Grow.</h2></div><p>Start with the room. Add the editing and launch support you need.</p></div>
-            <div className="payment-banner"><strong>Book by email. Pay on site.</strong><span>We’ll confirm your date and package together. Payment is due at the studio on the day of your session.</span></div>
+            <div className="payment-banner"><strong>Book with Google Calendar. Pay on site.</strong><span>Choose an available time and your package. Payment is due at the studio on the day of your session.</span></div>
             <div className="pricing-grid pricing-grid-four">
               {packages.map((item) => (
                 <article className={item.featured ? "price-card featured" : "price-card"} key={item.title}>
@@ -94,11 +95,11 @@ export default function Home() {
                   <div className="price"><strong>{item.price}</strong><span>/ one hour</span></div>
                   <ul>{item.rows.map((row) => <li key={row}>{row}</li>)}</ul>
                   {item.guarantee && <p className="price-guarantee">{item.guarantee}</p>}
-                  <a className={item.featured ? "button button-primary full" : "button button-outline full"} href={bookingEmail(item.title)}>Email to book <span aria-hidden="true">↗</span></a>
+                  <a className={item.featured ? "button button-primary full" : "button button-outline full"} href={BOOKING_PAGE}>Choose a time <span aria-hidden="true">↗</span></a>
                 </article>
               ))}
             </div>
-            <p className="pricing-note">Custom sets, advanced graphics and additional deliverables are quoted separately. Your booking is confirmed by email.</p>
+            <p className="pricing-note">Custom sets, advanced graphics and additional deliverables are quoted separately. One-hour sessions book directly in Google Calendar. Email us for longer sessions.</p>
           </div>
         </section>
 
@@ -107,11 +108,11 @@ export default function Home() {
             <figure className="building-photo"><img src="/assets/1345-avenue-of-the-americas.jpg" alt="1345 Avenue of the Americas, the Midtown Manhattan building that houses VIRGO Podcast Studio" width="387" height="516" loading="lazy" /><figcaption>1345 Avenue of the Americas, New York City</figcaption></figure>
             <div className="address-copy">
               <p className="eyebrow light">A little television history</p>
-              <h2>A familiar address.<br />Your next story.</h2>
-              <p className="office-lead">Yes, that building from <em>The Office.</em></p>
-              <p>Our studio is in the same building whose exterior appeared as Dunder Mifflin’s corporate headquarters in <em>The Office</em>. Now it’s a place to make a show of your own.</p>
+              <h2>Film your podcast from<br />the heart of New York.</h2>
+              <p className="office-lead">In the same building as Dunder Mifflin HQ in <em>The Office.</em></p>
+              <p>Record at 1345 Avenue of the Americas—the building whose exterior appeared as Dunder Mifflin’s corporate headquarters. A familiar New York address, with a studio ready for your own show.</p>
               <div className="visit-address"><strong>VIRGO Podcast Studio</strong><span>1345 Avenue of the Americas<br />2nd Floor · New York, NY 10105</span></div>
-              <div className="button-row"><a className="button button-primary" href="https://www.google.com/maps/dir/?api=1&destination=1345+Avenue+of+the+Americas,+New+York,+NY+10105" target="_blank" rel="noreferrer">Get directions <span aria-hidden="true">↗</span></a><a className="text-link text-link-light" href={BOOKING_EMAIL}>Plan your visit <span aria-hidden="true">↗</span></a></div>
+              <div className="button-row"><a className="button button-primary" href="https://www.google.com/maps/dir/?api=1&destination=1345+Avenue+of+the+Americas,+New+York,+NY+10105" target="_blank" rel="noreferrer">Get directions <span aria-hidden="true">↗</span></a><a className="text-link text-link-light" href={BOOKING_PAGE}>Book your visit <span aria-hidden="true">↗</span></a></div>
               <a className="location-source" href="https://sites.google.com/site/theofficefilmlocations/home/season-5" target="_blank" rel="noreferrer">The location in “The Duel” · Season 5 ↗</a>
             </div>
           </div>
@@ -130,13 +131,13 @@ export default function Home() {
         </section>
 
         <section className="section faq-section" id="faq"><div className="container faq-grid"><div><p className="eyebrow">Before your session</p><h2>A few good<br />questions.</h2></div><div className="faq-list">
-          <details open><summary>How do I book and pay?</summary><p>Choose “Email to book” to open a draft to ezraberke@virgopodcast.com. Include your preferred date, session length and package. We’ll confirm the details by email. Pay on site on the day of your session; there is no online checkout.</p></details>
+          <details open><summary>How do I book and pay?</summary><p>Choose “Book a session” to see available one-hour appointments in Google Calendar. Select your time and enter your package and contact details; Google sends your confirmation. For a two-hour, half-day or full-day session, email ezraberke@virgopodcast.com to arrange the full recording time. Pay on site on the day of your session; there is no online checkout.</p></details>
           <details><summary>What comes with a studio session?</summary><p>Your session includes an on-site producer, three-camera recording, microphones, studio lighting and multitrack audio. Studio Session includes raw footage; the other packages include editing.</p></details>
           <details><summary>When will I receive my edited episode?</summary><p>Ready-to-publish videos recorded in the studio are delivered in less than 24 hours. Larger packages, custom sets and advanced graphics may need a custom timeline.</p></details>
-          <details><summary>Can a remote guest join?</summary><p>Yes. We can bring a remote guest into the conversation and capture audio and video for the edit. Let us know when you email.</p></details>
+          <details><summary>Can a remote guest join?</summary><p>Yes. We can bring a remote guest into the conversation and capture audio and video for the edit. Email us ahead of your session so we can prepare.</p></details>
           <details><summary>What should I bring?</summary><p>Bring your topic, notes and any brand assets you’d like included. We handle the cameras, microphones, lighting and production.</p></details>
         </div></div></section>
-        <section className="ready-section"><div className="container ready-inner"><div><p className="eyebrow">Let’s make something worth hearing.</p><h2>Your next episode<br />starts with an email.</h2></div><div><a className="button button-primary" href={BOOKING_EMAIL}>Book your session <span aria-hidden="true">↗</span></a><p>Pay on site, on the day.</p><a className="email-address" href={BOOKING_EMAIL}>ezraberke@virgopodcast.com</a></div></div></section>
+        <section className="ready-section"><div className="container ready-inner"><div><p className="eyebrow">Let’s make something worth hearing.</p><h2>Your next episode.<br />Make time for it.</h2></div><div><a className="button button-primary" href={BOOKING_PAGE}>Book your session <span aria-hidden="true">↗</span></a><p>Pay on site, on the day.</p><a className="email-address" href={BOOKING_EMAIL}>ezraberke@virgopodcast.com</a></div></div></section>
       </main>
       <Footer />
     </>

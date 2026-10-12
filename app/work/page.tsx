@@ -1,4 +1,4 @@
-import { BOOKING_EMAIL } from "../../lib/contact";
+import { BOOKING_PAGE } from "../../lib/booking-links";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer, Header } from "../site-chrome";
@@ -113,7 +113,7 @@ export default function WorkPage() {
             <h2>Reserve the room. Build the story.</h2>
             <p>Choose your package and reserve a time directly through the live studio calendar.</p>
             <div className="button-row centered-buttons">
-              <Link className="button button-primary" href={BOOKING_EMAIL}>Book the studio</Link>
+              <Link className="button button-primary" href={BOOKING_PAGE}>Book the studio</Link>
               <Link className="button button-ghost" href="/#packages">Compare packages</Link>
             </div>
           </div>
