@@ -64,9 +64,18 @@ Automated tests use a real embedded PostgreSQL engine (PGlite) for migration, SQ
 - Two browser tabs submitted the same 11:30 slot simultaneously against Neon. Exactly one reached the USD 75.00 one-hour Checkout; the other displayed “Someone just selected that time. Choose another.” Database verification found only one additional hold.
 - Returning from the unpaid Checkout showed “Checkout closed” without claiming payment or releasing its hold. Explicitly expiring that sandbox session in Stripe changed the database row to `expired` through the webhook, created no calendar event, and restored 11:30 availability.
 
-The repository checks passed: 60 tests, type checking, production build and lint (10 pre-existing image warnings). Production dependency audit found no vulnerabilities; eight moderate development-tool findings remain.
+The original repository checks passed: 60 tests, type checking, production build and lint (10 pre-existing image warnings). Production dependency audit found no vulnerabilities; eight moderate development-tool findings remain.
 
-The following is the broader regression checklist. The completed provider checks above cover success, decline, duplicate notification, overlapping requests, cancellation/expiration, and the confirmed-booking buffer. Automated tests cover every catalog price, provider failures and post-payment conflicts. Authentication-required cards, deliberate provider outages, post-payment external conflicts, and every catalog combination were not all exercised against the real providers; complete those release rehearsals before any live implementation.
+The readiness update at application commit `d4f6e958d3d817d71cdca1a094eb1728e0e8fde9` passed **66 tests**, type checking, build, lint and GitHub Booking checks. Its protected Vercel Preview is [available for review](https://virgopodcast-e9gdzn3sm-virgo-podcast.vercel.app/book). The isolated test database received the atomic refund migration, preserving its three existing bookings and adding the twentieth column.
+
+- `/book` opens the complete test flow, with no dead Google appointment iframe. The header, footer, package selection and policy distinguish test checkout from real studio requests.
+- The owner's 24-hour non-refundable cancellation text appears before payment, on `/booking-policy`, and in the actual Stripe Checkout Session. Stripe records policy version `2026-11-05-24-hour-cancellation`.
+- A USD 75.00 one-hour session for November 8, 09:00–10:00 New York time completed Stripe's simulated 3D Secure challenge using the authentication-required test card.
+- After that Checkout Session opened, a temporary busy event was added to the isolated test calendar. The paid session automatically received one full USD 75.00 refund with Stripe status `succeeded`. Neon stored `refunded`, the refund ID, and no Google event ID. The result page correctly displayed “Test payment refunded.”
+- Google Calendar contained only the deliberately created conflict marker, with no application booking event. The marker was changed to Free after verification, preserving an audit trace without blocking availability.
+- The completion delivery returned HTTP 200. After requesting a replay, Stripe still reported exactly one refund for the payment. Automated tests additionally cover retries after refund timeouts, pending refunds, database failures and unrelated manual adjustments.
+
+The following is the broader regression checklist. Completed provider checks cover success, decline, authentication, duplicate notification, overlapping requests, cancellation/expiration, the confirmed-booking buffer, and post-payment conflict refunds. Automated tests cover every catalog price and provider failures. Deliberate provider outages and every catalog combination have not all been exercised against the real providers; complete those release rehearsals before any live implementation.
 
 - Try each package at all four durations and compare the Stripe amount with the catalog.
 - Verify a busy event, all-day event, weekend, long session, 30-minute buffer and booking boundary against the actual checked calendars.
