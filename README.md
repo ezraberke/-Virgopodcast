@@ -16,6 +16,10 @@ The former checkout and availability APIs return HTTP 410 so cached clients cann
 
 Install with `npm ci`, run `npm run dev`, and verify a production build with `npm run build`.
 
+## Stripe test integration (review only)
+
+The new `/book/test` flow preserves package prices and validates calendar availability before starting server-side Stripe Checkout. It is disabled by default, refuses live keys and Vercel Production, and uses a separate test database and test calendar. The current `/book` flow is unchanged. See [the setup, test plan and release boundaries](docs/stripe-test-checkout.md). Run `npm test` for the booking/payment regression suite.
+
 ## October 2026 refresh
 
 Updated studio photographs supplied by the owner, cleaner homepage and shared navigation, and a location feature about the building’s appearance as Dunder Mifflin’s corporate exterior in The Office. The exterior image is the owner-supplied photograph; it is not presented as a television still. Location reference: https://sites.google.com/site/theofficefilmlocations/home/season-5

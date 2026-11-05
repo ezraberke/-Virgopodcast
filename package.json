@@ -3,31 +3,35 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=20.9.0"
+    "node": ">=22.12.0"
   },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ignore-pattern .next"
+    "lint": "eslint . --ignore-pattern .next",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
     "googleapis": "^174.0.0",
     "luxon": "^3.7.2",
-    "next": "16.2.6",
+    "next": "16.4.5",
     "react": "19.2.6",
     "react-dom": "19.2.6",
     "stripe": "^22.4.0"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.15",
     "@types/luxon": "^3.7.3",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "eslint": "9.39.4",
-    "eslint-config-next": "16.2.6",
-    "typescript": "5.9.3"
+    "eslint-config-next": "16.4.5",
+    "typescript": "5.9.3",
+    "vitest": "^5.1.0"
   },
   "type": "module"
 }
