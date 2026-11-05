@@ -33,7 +33,8 @@ The saved legacy Vercel variables are sensitive and cannot be read back through 
 - Created `Virgo Stripe Test Bookings` in New York time and granted the existing studio service account event access with the owner's approval.
 - Saved the existing Stripe sandbox API key as a sensitive variable for `codex/stripe-test-checkout` Preview only.
 - The public Google appointment URL currently returns **Appointment not found**, and the authenticated calendar shows no existing booking page. The code's documented 09:00–18:00 New York schedule is retained for testing, but the old public Google booking flow needs owner review before a live launch. This branch does not silently replace the public link or create a new public schedule.
-- The main Google calendar, which the repository documents as the source of appointment conflicts, initially had no service-account sharing. Free/busy-only access must be approved and verified before testing availability; the separate studio calendar must also be checked. No event titles or descriptions are needed from the main calendar.
+- With explicit owner approval, granted the existing service account free/busy-only access to the main Google calendar. Availability checks include both the main and studio calendars, plus the isolated test calendar. Main-calendar event details remain hidden from the service account.
+- With explicit owner approval, created a dedicated Vercel automation bypass secret and stored it only in the private Stripe sandbox webhook URL. Deployment protection remains enabled. Original and replayed completion deliveries returned HTTP 200. Revoke this secret when the review integration is retired.
 
 ## Availability and payment behavior
 
@@ -53,7 +54,19 @@ The saved legacy Vercel variables are sensitive and cannot be read back through 
 
 Run `npm ci`, `npm test`, `npm run typecheck`, `npm run lint`, and `npm run build`.
 
-Automated tests use a real embedded PostgreSQL engine (PGlite) for migration, SQL predicates and state transitions; Stripe and Google are test doubles. PGlite has one connection, so the test adapter serializes transactions. Real multi-connection Neon locking and provider integration still need the preview checks below.
+Automated tests use a real embedded PostgreSQL engine (PGlite) for migration, SQL predicates and state transitions; Stripe and Google are test doubles. PGlite has one connection, so the test adapter serializes transactions. The protected preview was additionally tested against real Neon, Stripe sandbox and Google Calendar on November 5, 2026, using application commit `dd98c36cbf101716bf05cdf293d68d08f12ddf2b`:
+
+- The Ready to publish two-hour package produced a USD 175.00 test Checkout Session for November 7, 09:00–11:00 New York time.
+- The decline card showed an error. The database remained `held`, with no calendar event.
+- Retrying that session with the success card returned a confirmed result. The database stored 17500 cents and one deterministic test event. Google Calendar showed exactly one two-hour event, marked as a test without customer contact details.
+- Stripe delivered `checkout.session.completed` to the protected preview with HTTP 200. Manually replaying the same event also returned HTTP 200; the booking and calendar event remained single instances.
+- Availability excluded the confirmed interval and its buffer: the next start was 11:30 New York time.
+- Two browser tabs submitted the same 11:30 slot simultaneously against Neon. Exactly one reached the USD 75.00 one-hour Checkout; the other displayed “Someone just selected that time. Choose another.” Database verification found only one additional hold.
+- Returning from the unpaid Checkout showed “Checkout closed” without claiming payment or releasing its hold. Explicitly expiring that sandbox session in Stripe changed the database row to `expired` through the webhook, created no calendar event, and restored 11:30 availability.
+
+The repository checks passed: 60 tests, type checking, production build and lint (10 pre-existing image warnings). Production dependency audit found no vulnerabilities; eight moderate development-tool findings remain.
+
+The following is the broader regression checklist. The completed provider checks above cover success, decline, duplicate notification, overlapping requests, cancellation/expiration, and the confirmed-booking buffer. Automated tests cover every catalog price, provider failures and post-payment conflicts. Authentication-required cards, deliberate provider outages, post-payment external conflicts, and every catalog combination were not all exercised against the real providers; complete those release rehearsals before any live implementation.
 
 - Try each package at all four durations and compare the Stripe amount with the catalog.
 - Verify a busy event, all-day event, weekend, long session, 30-minute buffer and booking boundary against the actual checked calendars.
