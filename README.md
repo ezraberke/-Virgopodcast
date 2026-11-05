@@ -4,13 +4,15 @@ Next.js website deployed to Vercel from the connected GitHub repository.
 
 ## Booking
 
-Primary booking links lead to `/book`, which embeds the public Google Calendar appointment page configured in `lib/booking-links.ts`. The Google schedule offers one-hour sessions, Monday–Sunday 9am–6pm (including Saturday and Sunday) in America/New_York, with a 30-minute buffer between appointments, a two-hour minimum lead time and a 60-day booking window. Its primary calendar availability check is enabled. The optional session-format field lets customers identify Podcast Therapy sessions. Google manages reservations and customer confirmations; private event details are not embedded in the website.
+All booking buttons lead to `/book`. In the explicitly enabled, protected Preview, this opens the complete Stripe **test** flow for every package and duration. Production refuses that flow and uses a contact-the-studio fallback until a separate live release is reviewed. The broken Google appointment iframe and direct schedule links have been removed from this branch.
 
-The Google account currently allows only one appointment schedule. Two-hour, half-day and full-day reservations are clearly offered by email to ezraberke@virgopodcast.com. All sessions are paid on site on the day. No online payment or deposit is collected.
+The website owns checkout holds and booking records. Google Calendar supplies busy intervals from the owner's primary and studio calendars. Do not run a parallel Google appointment schedule: it cannot see website checkout holds. Keep practices, games and other unavailable periods marked Busy; Free events do not block recording. Website hours are Monday–Sunday, 09:00–18:00 New York time, with a 30-minute buffer, two-hour notice and a 60-day window. Review hours here when availability rules change.
 
-Basketball practices and Ramaz games must be marked Busy on the checked calendar to block appointments. Events marked Free do not block time. Games with unknown times need their all-day status handled before opening those dates. Future schedule changes should be made in Google Calendar, not hardcoded into the website.
+All 16 package/duration prices use the shared catalog. Custom extras and nonstandard durations remain separately quoted. The owner-approved cancellation rule is displayed on the website and Stripe Checkout: cancellations within 24 hours of the scheduled start are non-refundable. Earlier refunds and rescheduling requests go to the studio; no additional entitlement or fee was invented.
 
-The former checkout and availability APIs return HTTP 410 so cached clients cannot create payments or use obsolete availability. Historical success/cancel URLs redirect to `/book`. The signed Stripe webhook and its database/calendar integration remain only for payments already initiated before checkout was retired. No current website flow creates a new Stripe session.
+A calendar conflict discovered after test payment triggers a full test refund instead of a reservation. The refund decision is committed before Stripe is called; retries recover the same refund. This operational failure refund is separate from customer-initiated cancellation policy. See the runbook for recovery and launch gates.
+
+Retired checkout and availability APIs return HTTP 410 and point to `/book`. Historical success/cancel URLs still redirect there. The legacy signed settlement endpoint remains for previously initiated payments.
 
 ## Development
 
@@ -18,7 +20,7 @@ Install with `npm ci`, run `npm run dev`, and verify a production build with `np
 
 ## Stripe test integration (review only)
 
-The new `/book/test` flow preserves package prices and validates calendar availability before starting server-side Stripe Checkout. It is disabled by default, refuses live keys and Vercel Production, and uses a separate test database and test calendar. The current `/book` flow is unchanged. See [the setup, test plan and release boundaries](docs/stripe-test-checkout.md). Run `npm test` for the booking/payment regression suite.
+The new `/book/test` flow preserves package prices and validates calendar availability before starting server-side Stripe Checkout. It is disabled by default, refuses live keys and Vercel Production, and uses a separate test database and test calendar. `/book` uses the same test flow in the enabled Preview; outside it, the site offers the safe contact fallback. See [the setup, test plan and release boundaries](docs/stripe-test-checkout.md). Run `npm test` for the booking/payment regression suite.
 
 ## October 2026 refresh
 

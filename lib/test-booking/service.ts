@@ -7,6 +7,7 @@ import { slotsForDate, type BusyWindow } from "../availability";
 import { BookingError, getTestConfig } from "./config";
 import { calendarBusy, existingCalendarBooking, insertCalendarBooking } from "./calendar";
 import { parseBooking, UUID } from "./validation";
+import { CANCELLATION_POLICY, POLICY_VERSION } from "../booking-policy";
 
 let pool: Pool | undefined;
 export function testPool() { return pool ??= new Pool({ connectionString: getTestConfig().databaseUrl }); }
@@ -15,8 +16,8 @@ export function testStripe() { return new Stripe(getTestConfig().key, { timeout:
 export type Booking = {
   id: string; request_id: string; request_hash: string; package_id: string; package_name: string;
   start_time: Date; end_time: Date; customer_name: string; customer_email: string; customer_phone: string;
-  notes: string; amount_cents: number; status: "held" | "confirmed" | "expired" | "needs_review";
-  expires_at: Date; stripe_session_id: string | null; google_calendar_event_id: string | null;
+  notes: string; amount_cents: number; status: "held" | "confirmed" | "expired" | "needs_review" | "refunded";
+  expires_at: Date; stripe_session_id: string | null; google_calendar_event_id: string | null; stripe_refund_id: string | null;
 };
 
 async function locked<T>(run: (client: PoolClient) => Promise<T>) {
@@ -49,7 +50,7 @@ export async function availableSlots(date: string, packageId: string) {
   const to = day.endOf("day").plus({ minutes: BOOKING_BUFFER_MINUTES });
   const [busy, held] = await Promise.all([
     calendarBusy(from.toJSDate(), to.toJSDate()),
-    testPool().query("SELECT start_time, end_time FROM test_bookings WHERE status <> 'expired' AND start_time < $2 AND end_time > $1", [from.toISO(), to.toISO()]),
+    testPool().query("SELECT start_time, end_time FROM test_bookings WHERE status NOT IN ('expired', 'refunded') AND start_time < $2 AND end_time > $1", [from.toISO(), to.toISO()]),
   ]);
   const databaseBusy: BusyWindow[] = held.rows.map(row => ({ start: new Date(row.start_time).toISOString(), end: new Date(row.end_time).toISOString() }));
   return slotsForDate(date, pkg, [...busy, ...databaseBusy]);
@@ -68,7 +69,7 @@ export async function reserveBooking(input: ReturnType<typeof parseBooking>) {
     if (getStudioClosure(date)) throw new BookingError("The studio is closed on this date.", 409);
     const busy = await calendarBusy(input.startDate.minus({ minutes: 30 }).toJSDate(), input.endDate.plus({ minutes: 30 }).toJSDate());
     if (!slotsForDate(date, input.pkg, busy).some(slot => Date.parse(slot) === input.startDate.toMillis())) throw new BookingError("That time is no longer available. Choose another.", 409);
-    const conflict = await client.query("SELECT 1 FROM test_bookings WHERE status <> 'expired' AND start_time < $2 AND end_time > $1 LIMIT 1", [input.startDate.minus({ minutes: 30 }).toISO(), input.endDate.plus({ minutes: 30 }).toISO()]);
+    const conflict = await client.query("SELECT 1 FROM test_bookings WHERE status NOT IN ('expired', 'refunded') AND start_time < $2 AND end_time > $1 LIMIT 1", [input.startDate.minus({ minutes: 30 }).toISO(), input.endDate.plus({ minutes: 30 }).toISO()]);
     if (conflict.rows.length) throw new BookingError("Someone just selected that time. Choose another.", 409);
     // Bound accidental repeated holds, even if the caller changes its request UUID.
     const active = await client.query("SELECT 1 FROM test_bookings WHERE customer_email = $1 AND status = 'held' LIMIT 1", [input.customerEmail]);
@@ -84,7 +85,8 @@ export async function reserveBooking(input: ReturnType<typeof parseBooking>) {
 export function checkoutParameters(booking: Booking, origin: string): Stripe.Checkout.SessionCreateParams {
   return {
     mode: "payment", payment_method_types: ["card"], customer_email: booking.customer_email,
-    client_reference_id: booking.id, metadata: { bookingId: booking.id, integration: "virgo-test-v1" },
+    client_reference_id: booking.id, metadata: { bookingId: booking.id, integration: "virgo-test-v1", cancellationPolicy: POLICY_VERSION },
+    custom_text: { submit: { message: CANCELLATION_POLICY } },
     line_items: [{ quantity: 1, price_data: { currency: "usd", unit_amount: booking.amount_cents,
       product_data: { name: booking.package_name, description: `Sandbox only. ${new Date(booking.start_time).toISOString()}` } } }],
     success_url: `${origin}/book/test/result?session_id={CHECKOUT_SESSION_ID}`,
@@ -123,12 +125,12 @@ export async function settleSession(session: Stripe.Checkout.Session) {
   if (session.metadata?.integration !== "virgo-test-v1") return;
   const id = session.metadata.bookingId;
   if (!UUID.test(id ?? "")) throw new Error("Missing booking ID");
-  return locked(async client => {
+  const status = await locked(async client => {
     const result = await client.query<Booking>("SELECT * FROM test_bookings WHERE id = $1 FOR UPDATE", [id]);
     const booking = result.rows[0];
     if (!booking) throw new Error("Booking not found");
     assertSession(session, booking);
-    if (booking.status === "confirmed" || booking.status === "needs_review") return booking.status;
+    if (["confirmed", "needs_review", "refunded"].includes(booking.status)) return booking.status;
     if (session.status === "expired" && session.payment_status === "unpaid") {
       await client.query("UPDATE test_bookings SET status = 'expired', stripe_session_id = $1, updated_at = now() WHERE id = $2 AND status = 'held'", [session.id, id]);
       return "expired";
@@ -141,7 +143,7 @@ export async function settleSession(session: Stripe.Checkout.Session) {
       const end = DateTime.fromJSDate(new Date(booking.end_time));
       const busy = await calendarBusy(start.minus({ minutes: 30 }).toJSDate(), end.plus({ minutes: 30 }).toJSDate());
       const conflict = busy.some(window => Date.parse(window.start!) < end.plus({ minutes: 30 }).toMillis() && Date.parse(window.end!) > start.minus({ minutes: 30 }).toMillis());
-      const overlapping = await client.query("SELECT 1 FROM test_bookings WHERE id <> $3 AND status <> 'expired' AND start_time < $2 AND end_time > $1 LIMIT 1", [start.minus({ minutes: 30 }).toISO(), end.plus({ minutes: 30 }).toISO(), id]);
+      const overlapping = await client.query("SELECT 1 FROM test_bookings WHERE id <> $3 AND status NOT IN ('expired', 'refunded') AND start_time < $2 AND end_time > $1 LIMIT 1", [start.minus({ minutes: 30 }).toISO(), end.plus({ minutes: 30 }).toISO(), id]);
       if (booking.status === "expired" || conflict || overlapping.rows.length) status = "needs_review";
       else eventId = await insertCalendarBooking(booking);
     }
@@ -149,5 +151,36 @@ export async function settleSession(session: Stripe.Checkout.Session) {
       google_calendar_event_id = $4, updated_at = now() WHERE id = $5`,
       [status, session.id, typeof session.payment_intent === "string" ? session.payment_intent : null, eventId, id]);
     return status;
+  });
+  // Commit the decision BEFORE attempting the external refund. A timeout must
+  // never let a later retry create a reservation after money has been returned.
+  return status === "needs_review" ? refundConflictedBooking(session, id!) : status;
+}
+
+async function refundConflictedBooking(session: Stripe.Checkout.Session, id: string) {
+  return locked(async client => {
+    const booking = (await client.query<Booking>("SELECT * FROM test_bookings WHERE id = $1 FOR UPDATE", [id])).rows[0];
+    if (!booking) throw new Error("Booking not found");
+    assertSession(session, booking);
+    if (booking.status === "refunded") return "refunded";
+    if (booking.status !== "needs_review" || booking.google_calendar_event_id || session.payment_status !== "paid" || typeof session.payment_intent !== "string") throw new Error("Refund requires review");
+    const stripe = testStripe();
+    let refund: Stripe.Refund | undefined;
+    if (booking.stripe_refund_id) refund = await stripe.refunds.retrieve(booking.stripe_refund_id);
+    else {
+      // Recover beyond Stripe's idempotency retention window after an ambiguous
+      // refund/DB failure. Never create a second refund for this decision.
+      const previous = await stripe.refunds.list({ payment_intent: session.payment_intent, limit: 100 });
+      refund = previous.data.find(r => r.metadata?.bookingId === id && r.metadata?.integration === "virgo-test-v1");
+      if (!refund && (previous.has_more || previous.data.length)) throw new Error("Existing payment adjustments require review");
+      refund ??= await stripe.refunds.create({ payment_intent: session.payment_intent, amount: booking.amount_cents,
+        metadata: { bookingId: id, integration: "virgo-test-v1", cause: "calendar_conflict" },
+      }, { idempotencyKey: `virgo-test-conflict-refund-${id}` });
+    }
+    if (refund.amount !== booking.amount_cents || refund.currency !== "usd" || refund.payment_intent !== session.payment_intent || refund.metadata?.bookingId !== id || refund.metadata?.integration !== "virgo-test-v1") throw new Error("Refund does not match booking");
+    if (!["succeeded", "pending"].includes(refund.status ?? "")) throw new Error("Refund needs operator attention");
+    const complete = refund.status === "succeeded";
+    await client.query("UPDATE test_bookings SET status = $1, stripe_refund_id = $2, updated_at = now() WHERE id = $3", [complete ? "refunded" : "needs_review", refund.id, id]);
+    return complete ? "refunded" : "refund_pending";
   });
 }

@@ -2,7 +2,7 @@
 
 ## Scope
 
-The existing `/book` Google appointment page, pay-on-site copy, and legacy payment settlement endpoint stay unchanged. The new flow is `/book/test`, with APIs under `/api/test-booking` and a separate signed webhook at `/api/stripe/test-webhook`. It is disabled by default and refuses Vercel Production or live Stripe keys. No payout/bank setup is needed.
+All booking links now lead to `/book`. In the enabled protected Preview it renders the same test flow as `/book/test`; outside that environment it offers an explicit contact-the-studio booking request, with no automatic reservation or payment. The broken Google appointment iframe and its links are removed. Shared copy distinguishes test checkout from the public contact/pay-on-site fallback. The legacy payment settlement endpoint stays unchanged. The test APIs remain under `/api/test-booking`, with a separate signed webhook at `/api/stripe/test-webhook`. It is disabled by default and refuses Vercel Production or live Stripe keys. No payout/bank setup is needed.
 
 The same `BOOKING_PACKAGES` catalog supplies the UI and server. Prices remain:
 
@@ -17,7 +17,7 @@ There is no fixed-price add-on catalog in this repository. Custom sets, advanced
 
 ## Configure a protected preview
 
-1. Create an isolated Neon branch/database. Run `db/test-bookings.sql` against it. Do not run this migration against the production database. Set its URL as `TEST_DATABASE_URL`.
+1. Create an isolated Neon branch/database. Run `db/test-bookings.sql` against it. Existing review databases also need the additive, atomic `db/test-booking-refunds.sql` migration. Do not run this migration against the production database. Set its URL as `TEST_DATABASE_URL`.
 2. Create a dedicated Google test calendar. Give the service account write access to that calendar and free/busy access to every calendar checked by the current Google appointment schedule. Set `GOOGLE_TEST_CALENDAR_ID`, `GOOGLE_AVAILABILITY_CALENDAR_IDS`, `GOOGLE_TEST_CLIENT_EMAIL`, and `GOOGLE_TEST_PRIVATE_KEY`. Alternatively, explicitly set `GOOGLE_TEST_USE_EXISTING_SERVICE_ACCOUNT=true` to use the already-saved `GOOGLE_CLIENT_EMAIL`/`GOOGLE_PRIVATE_KEY` pair inside the server; the code never mixes credentials from different pairs or exposes them. Use full calendar IDs, not `primary`. The test calendar must not be one of the live calendars or be included in the public Google schedule's conflict checking.
 3. In Stripe Sandbox/Test mode, create a test secret API key (`sk_test_...`). Store it in Vercel as `STRIPE_TEST_SECRET_KEY`. Never put secrets in chat, source control, or a `NEXT_PUBLIC_` variable. Hosted Checkout does not need a publishable key.
 4. Set `TEST_CHECKOUT_ENABLED=true` only for the review branch's Preview environment. Keep Vercel deployment protection enabled. Omit `TEST_CHECKOUT_ORIGIN` on Vercel; the exact `VERCEL_URL` is used. On localhost use `http://localhost:3000`.
@@ -32,7 +32,7 @@ The saved legacy Vercel variables are sensitive and cannot be read back through 
 - Created the separate free Neon database `virgo-stripe-test`, connected only to Vercel Preview with the `TEST` prefix. Applied the migration and verified 19 columns, five indexes, and zero bookings.
 - Created `Virgo Stripe Test Bookings` in New York time and granted the existing studio service account event access with the owner's approval.
 - Saved the existing Stripe sandbox API key as a sensitive variable for `codex/stripe-test-checkout` Preview only.
-- The public Google appointment URL currently returns **Appointment not found**, and the authenticated calendar shows no existing booking page. The code's documented 09:00–18:00 New York schedule is retained for testing, but the old public Google booking flow needs owner review before a live launch. This branch does not silently replace the public link or create a new public schedule.
+- The public Google appointment URL currently returns **Appointment not found**, and the authenticated calendar shows no existing booking page. The code's documented 09:00–18:00 New York schedule is retained for testing, but the old public Google booking flow needs owner review before a live launch. The later readiness update removes that dead link and uses the website as the single entry point. No replacement public Google schedule was created. These changes remain in the draft PR until reviewed.
 - With explicit owner approval, granted the existing service account free/busy-only access to the main Google calendar. Availability checks include both the main and studio calendars, plus the isolated test calendar. Main-calendar event details remain hidden from the service account.
 - With explicit owner approval, created a dedicated Vercel automation bypass secret and stored it only in the private Stripe sandbox webhook URL. Deployment protection remains enabled. Original and replayed completion deliveries returned HTTP 200. Revoke this secret when the review integration is retired.
 
@@ -46,9 +46,9 @@ The saved legacy Vercel variables are sensitive and cannot be read back through 
 - Card-only payment sessions avoid delayed-method reservation windows. Browser totals, quantities, discounts and redirect URLs are not accepted.
 - Signed webhooks retrieve current Stripe state and validate test mode, booking ID, session ID, currency and amount. Browser return pages also retrieve Stripe state; merely visiting a success URL never confirms payment.
 - The test calendar event uses a deterministic ID. If Calendar succeeds but the database write fails, retries recover that event instead of creating another. Failed writes return non-2xx so Stripe retries.
-- A new external calendar conflict after checkout sends the test booking to `needs_review`; it is never shown as confirmed. This intentionally surfaces the race with independently edited Google bookings.
+- A new external calendar conflict after checkout durably records `needs_review` before requesting a full test refund. A succeeded refund changes the booking to `refunded` and releases its database block. A pending refund keeps the block and causes webhook HTTP 503 so Stripe retries. Existing unrelated payment adjustments and failed refunds require operator review. A retry never changes a refund decision into a calendar reservation, even if the conflict later disappears.
 - Test events contain no attendees or contact details and send no invitations. They are explicitly marked as tests. The result page does not expose customer details.
-- The existing public Google booking flow does not consult test holds or test events. Test bookings are **not real reservations**.
+- No parallel Google appointment schedule is linked. Google busy checks plus database holds determine test availability. Test bookings are **not real reservations**.
 
 ## Validation
 
@@ -75,13 +75,33 @@ The following is the broader regression checklist. The completed provider checks
 - Cancel or abandon Checkout. Confirm that returning to the site does not falsely claim payment/cancellation; after Stripe expiration the slot becomes available.
 - Replay a signed completion webhook. Expect one test booking and one calendar event.
 - Make Calendar temporarily unavailable, then restore it and replay. Expect a retriable error followed by a single confirmed test event.
-- Add a conflicting busy event during checkout. Expect `needs_review`, no calendar confirmation, and a clear result message.
+- Add a conflicting busy event during checkout. Expect a full test refund, no calendar reservation, and a clear result message. Pending/failed refunds must remain blocked and retryable; replay must not create a second refund.
 - Verify live keys and `VERCEL_ENV=production` refuse all new payment requests and hide `/book/test`.
 
 For a stuck hold, first find its test Checkout Session in Stripe using the booking ID metadata. Redeliver its completion/expiration webhook. If the server failed before a session could be linked, the webhook can still locate the persisted booking by metadata. If Stripe definitively confirms no session/payment exists, an operator may mark that specific test hold expired. Never bulk-delete holds based on elapsed time alone.
 
 ## Review before real payments
 
-This implementation cannot be turned live just by replacing the key. A separate reviewed change must choose a single real reservation authority, address the Google appointment page's concurrent booking race (including reservation holds), handle real payment conflicts/refunds and customer notifications, and verify the precise schedule and add-on catalog. Review cancellation/refund policy and operational alerts/reconciliation before any live release. Set up bank details/payouts last, after the test flow is approved.
+This implementation cannot be turned live just by replacing the key. The chosen design uses website booking records and holds as the reservation authority, with Google calendars providing busy intervals. Keep parallel Google appointment schedules disabled. The owner approved the 24-hour non-refundable cancellation cutoff; it is shown before payment and recorded by version in Stripe metadata. A live release still needs its separately configured live database/calendar/credentials, real customer confirmation delivery, and an operator review of reconciliation and refund handling. These production changes are not enabled by this test PR. Set up bank details/payouts last, after the test flow is approved.
 
 Reference: [Stripe fulfillment](https://docs.stripe.com/checkout/fulfillment), [Stripe webhooks](https://docs.stripe.com/webhooks), [Google free/busy](https://developers.google.com/workspace/calendar/api/v3/reference/freebusy/query).
+
+## Readiness update and operator recovery
+
+The public booking entry, shared copy, policy page, test Checkout policy text and automatic test conflict refunds were prepared after the owner confirmed a successful test payment. Customer cancellations inside 24 hours are non-refundable; a payment taken when the studio cannot honor the slot is a separate operational refund.
+
+For operator review, query only the isolated test database:
+
+```sql
+SELECT id, status, start_time, end_time, amount_cents,
+       stripe_session_id, stripe_refund_id, updated_at
+FROM test_bookings
+WHERE status IN ('held', 'needs_review')
+ORDER BY updated_at;
+```
+
+- For an overdue held booking with a Stripe session, inspect that exact sandbox session and replay its completion or expiration event. Never free a slot based only on elapsed time.
+- A `needs_review` booking is a committed refund decision. Replaying its completion event retries or retrieves the same refund; it cannot create a calendar event. If Stripe reports a failed/canceled refund or unrelated manual adjustment, inspect the payment before intervening. Never mark it refunded without Stripe proof.
+- Stripe retries non-2xx deliveries. Check the sandbox endpoint's Event deliveries for failures; the result page also retries reconciliation. For a live release, configure operational failure notifications and verify customer confirmation delivery before accepting payments.
+- Google outages fail closed before checkout. After a paid session, a transient calendar failure returns non-2xx, retaining the hold for a retry. Deterministic event IDs recover a completed calendar write if the database update fails.
+- Keep the dedicated automation bypass secret private and revoke it when retiring review infrastructure. Production checkout remains hard-disabled in this branch.

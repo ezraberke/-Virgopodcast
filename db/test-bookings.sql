@@ -12,10 +12,11 @@ CREATE TABLE IF NOT EXISTS test_bookings (
   customer_phone text NOT NULL DEFAULT '',
   notes text NOT NULL DEFAULT '',
   amount_cents integer NOT NULL CHECK (amount_cents > 0),
-  status text NOT NULL DEFAULT 'held' CHECK (status IN ('held', 'confirmed', 'expired', 'needs_review')),
+  status text NOT NULL DEFAULT 'held' CHECK (status IN ('held', 'confirmed', 'expired', 'needs_review', 'refunded')),
   expires_at timestamptz NOT NULL,
   stripe_session_id text UNIQUE,
   stripe_payment_intent_id text,
+  stripe_refund_id text,
   google_calendar_event_id text UNIQUE,
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now()

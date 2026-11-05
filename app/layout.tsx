@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.virgopodcast.com"),
   title: "VIRGO Podcast Studio | Record, Publish & Grow in Midtown",
-  description: "A producer-supported podcast and video studio in Midtown Manhattan. Book a recording session with Google Calendar and pay on site on the day.",
+  description: "A producer-supported podcast and video studio in Midtown Manhattan. Choose your recording package and session length.",
   icons: { icon: "/assets/virgo-logo.png", shortcut: "/assets/virgo-logo.png" },
   openGraph: {
     title: "VIRGO Podcast Studio | Record, Publish & Grow",

@@ -20,7 +20,9 @@ export async function POST(request: Request) {
       const object = event.data.object as Stripe.Checkout.Session;
       // Retrieve current state: duplicate and out-of-order notifications must be harmless.
       const session = await stripe.checkout.sessions.retrieve(object.id);
-      await settleSession(session);
+      const status = await settleSession(session);
+      // Keep Stripe's delivery retries active while a refund is pending.
+      if (status === "refund_pending") return json({ error: "Refund is still pending." }, 503);
     }
     return json({ received: true });
   } catch (error) { return failure(error); }

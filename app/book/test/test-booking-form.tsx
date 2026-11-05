@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { BOOKING_PACKAGES, formatPrice } from "../../../lib/booking-config";
+import Link from "next/link";
+import { CANCELLATION_POLICY } from "../../../lib/booking-policy";
 
 const families = [...new Set(BOOKING_PACKAGES.map(p => p.title))];
 const timeLabel = (time: string) => new Date(time).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/New_York" });
@@ -76,6 +78,7 @@ export function TestBookingForm({ today, lastDate }: { today: string; lastDate: 
         <label className="field-wide"><span>Session format or notes (optional)</span><textarea name="notes" maxLength={2000} rows={4} placeholder="Podcast Therapy, number of guests, or special requests. Quoted extras are not charged here." disabled={submitting} /></label>
       </div>
       {message && <p className="booking-message" role="alert">{message}</p>}
+      <p className="calendar-help">{CANCELLATION_POLICY} <Link href="/booking-policy">Read the booking policy</Link>.</p>
       <button className="button button-primary booking-submit" type="submit" disabled={!slot || loading || !slots.includes(slot) || submitting}>{submitting ? "Opening Stripe test checkout…" : `Test checkout · ${formatPrice(selected.priceCents)}`}</button>
       <p className="checkout-note">No real charges or customer reservations. Use Stripe test payment details only.</p>
     </form>

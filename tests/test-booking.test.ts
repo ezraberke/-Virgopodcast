@@ -5,17 +5,18 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vites
 import { DateTime } from "luxon";
 import Stripe from "stripe";
 
-const mocks = vi.hoisted(() => ({ query: vi.fn(), connect: vi.fn(), busy: vi.fn(), existing: vi.fn(), insert: vi.fn(), create: vi.fn(), retrieve: vi.fn() }));
+const mocks = vi.hoisted(() => ({ query: vi.fn(), connect: vi.fn(), busy: vi.fn(), existing: vi.fn(), insert: vi.fn(), create: vi.fn(), retrieve: vi.fn(), refundCreate: vi.fn(), refundRetrieve: vi.fn(), refundList: vi.fn() }));
 vi.mock("@neondatabase/serverless", () => ({ Pool: class { query = mocks.query; connect = mocks.connect; } }));
 vi.mock("../lib/test-booking/calendar", () => ({ calendarBusy: mocks.busy, existingCalendarBooking: mocks.existing, insertCalendarBooking: mocks.insert }));
 vi.mock("stripe", async importOriginal => {
   const { default: RealStripe } = await importOriginal<typeof import("stripe")>();
   return { default: class extends RealStripe {
-    constructor(key: string) { super(key); this.checkout.sessions.create = mocks.create; this.checkout.sessions.retrieve = mocks.retrieve; }
+    constructor(key: string) { super(key); this.checkout.sessions.create = mocks.create; this.checkout.sessions.retrieve = mocks.retrieve; this.refunds.create = mocks.refundCreate; this.refunds.retrieve = mocks.refundRetrieve; this.refunds.list = mocks.refundList; }
   } };
 });
 
 import { BOOKING_PACKAGES } from "../lib/booking-config";
+import { CANCELLATION_POLICY, POLICY_VERSION } from "../lib/booking-policy";
 import { slotsForDate } from "../lib/availability";
 import { getTestConfig, assertSameOrigin } from "../lib/test-booking/config";
 import { parseBooking } from "../lib/test-booking/validation";
@@ -29,7 +30,7 @@ const input = (overrides = {}) => ({ requestId: randomUUID(), packageId: "studio
 const paid = (b: Booking, overrides = {}) => ({ id: "cs_test_12345678901234567890", livemode: false, mode: "payment", metadata: { bookingId: b.id, integration: "virgo-test-v1" }, client_reference_id: b.id, amount_total: b.amount_cents, currency: "usd", status: "complete", payment_status: "paid", payment_intent: "pi_test", ...overrides }) as unknown as Stripe.Checkout.Session;
 const row = async () => (await db.query<Booking>("SELECT * FROM test_bookings LIMIT 1")).rows[0];
 
-beforeAll(async () => { db = new PGlite(); await db.exec(readFileSync("db/test-bookings.sql", "utf8")); });
+beforeAll(async () => { db = new PGlite(); await db.exec(readFileSync("db/test-bookings.sql", "utf8")); await db.exec(readFileSync("db/test-booking-refunds.sql", "utf8")); });
 afterAll(async () => { vi.useRealTimers(); vi.unstubAllEnvs(); await db.close(); });
 beforeEach(async () => {
   vi.resetAllMocks();
@@ -48,6 +49,8 @@ beforeEach(async () => {
     return { query: mocks.query, release };
   });
   mocks.busy.mockResolvedValue([]); mocks.existing.mockResolvedValue(null); mocks.insert.mockResolvedValue("calendar-test-event");
+  mocks.refundList.mockResolvedValue({ data: [], has_more: false });
+  mocks.refundCreate.mockImplementation(async params => ({ id: "re_test", status: "succeeded", currency: "usd", ...params }));
 });
 
 describe("catalog and input integrity", () => {
@@ -96,6 +99,59 @@ describe("calendar and reservation rules", () => {
 });
 
 describe("Stripe creation and fulfillment", () => {
+  it("shows the owner-approved policy in Checkout and records its version", async () => {
+    const booking = await reserveBooking(parseBooking(input()));
+    const parameters = checkoutParameters(booking, config.TEST_CHECKOUT_ORIGIN);
+    expect(parameters.custom_text?.submit).toEqual({ message: CANCELLATION_POLICY });
+    expect(parameters.metadata?.cancellationPolicy).toBe(POLICY_VERSION);
+  });
+  it("keeps the refund decision after a timeout even if the calendar becomes free", async () => {
+    const b = await reserveBooking(parseBooking(input()));
+    mocks.busy.mockResolvedValue([{ start: b.start_time.toISOString(), end: b.end_time.toISOString() }]);
+    mocks.refundCreate.mockRejectedValueOnce(new Error("Refund timeout"));
+    await expect(settleSession(paid(b))).rejects.toThrow("Refund timeout");
+    expect((await row()).status).toBe("needs_review");
+    mocks.busy.mockResolvedValue([]);
+    expect(await settleSession(paid(b))).toBe("refunded");
+    expect(mocks.insert).not.toHaveBeenCalled();
+    expect(mocks.refundCreate.mock.calls[0]).toEqual(mocks.refundCreate.mock.calls[1]);
+  });
+  it("recovers a completed refund after a database failure without creating another", async () => {
+    const b = await reserveBooking(parseBooking(input()));
+    mocks.busy.mockResolvedValue([{ start: b.start_time.toISOString(), end: b.end_time.toISOString() }]);
+    mocks.refundCreate.mockImplementationOnce(async params => {
+      const refund = { id: "re_recovered", status: "succeeded", currency: "usd", ...params };
+      mocks.refundList.mockResolvedValue({ data: [refund], has_more: false });
+      return refund;
+    });
+    let failed = false;
+    mocks.query.mockImplementation((sql, args) => {
+      if (!failed && sql.includes("stripe_refund_id =")) { failed = true; throw new Error("DB timeout"); }
+      return db.query(sql, args);
+    });
+    await expect(settleSession(paid(b))).rejects.toThrow("DB timeout");
+    expect((await row()).status).toBe("needs_review");
+    expect(await settleSession(paid(b))).toBe("refunded");
+    expect(mocks.refundCreate).toHaveBeenCalledTimes(1);
+    expect((await row()).stripe_refund_id).toBe("re_recovered");
+  });
+  it("does not release a pending refund and retrieves it on retry", async () => {
+    const b = await reserveBooking(parseBooking(input()));
+    mocks.busy.mockResolvedValue([{ start: b.start_time.toISOString(), end: b.end_time.toISOString() }]);
+    mocks.refundCreate.mockImplementationOnce(async params => ({ id: "re_pending", status: "pending", currency: "usd", ...params }));
+    expect(await settleSession(paid(b))).toBe("refund_pending");
+    expect((await row()).status).toBe("needs_review");
+    mocks.refundRetrieve.mockResolvedValue({ id: "re_pending", status: "succeeded", currency: "usd", amount: b.amount_cents, payment_intent: "pi_test", metadata: { bookingId: b.id, integration: "virgo-test-v1" } });
+    expect(await settleSession(paid(b))).toBe("refunded");
+    expect(mocks.refundCreate).toHaveBeenCalledTimes(1);
+  });
+  it("stops on unrelated payment adjustments instead of attempting another refund", async () => {
+    const b = await reserveBooking(parseBooking(input()));
+    mocks.busy.mockResolvedValue([{ start: b.start_time.toISOString(), end: b.end_time.toISOString() }]);
+    mocks.refundList.mockResolvedValue({ data: [{ id: "re_other", metadata: {} }], has_more: false });
+    await expect(settleSession(paid(b))).rejects.toThrow("Existing payment adjustments require review");
+    expect(mocks.refundCreate).not.toHaveBeenCalled(); expect(mocks.insert).not.toHaveBeenCalled();
+  });
   it("uses a stored quote and fixed URLs without flexible quantities", async () => { const b = await reserveBooking(parseBooking(input())); const p = checkoutParameters(b, config.TEST_CHECKOUT_ORIGIN); expect(p.line_items?.[0].price_data?.unit_amount).toBe(7500); expect(p.payment_method_types).toEqual(["card"]); expect(p.success_url).toBe("http://localhost:3000/book/test/result?session_id={CHECKOUT_SESSION_ID}"); });
   it("keeps the hold after an ambiguous timeout and retries with the same key", async () => {
     const request = parseBooking(input()); mocks.create.mockRejectedValueOnce(new Error("Timeout")).mockResolvedValueOnce({ id: "cs_test_same", status: "open", livemode: false, url: "https://checkout.stripe.com/c/pay/cs_test_same" });
@@ -117,11 +173,23 @@ describe("Stripe creation and fulfillment", () => {
     await expect(settleSession(paid(b))).rejects.toThrow("DB interrupted");
     await settleSession(paid(b)); expect(mocks.insert).toHaveBeenCalledTimes(1); expect((await row()).google_calendar_event_id).toBe("existing-event");
   });
-  it("marks newly conflicting paid bookings for review", async () => { const b = await reserveBooking(parseBooking(input())); mocks.busy.mockResolvedValue([{ start: b.start_time.toISOString(), end: b.end_time.toISOString() }]); expect(await settleSession(paid(b))).toBe("needs_review"); expect(mocks.insert).not.toHaveBeenCalled(); });
+  it("fully refunds newly conflicting paid bookings without creating a calendar event", async () => { const b = await reserveBooking(parseBooking(input())); mocks.busy.mockResolvedValue([{ start: b.start_time.toISOString(), end: b.end_time.toISOString() }]); expect(await settleSession(paid(b))).toBe("refunded"); expect(mocks.insert).not.toHaveBeenCalled(); expect(mocks.refundCreate).toHaveBeenCalledTimes(1);
+    await settleSession(paid(b)); expect(mocks.refundCreate).toHaveBeenCalledTimes(1); });
   it("does not release a confirmed booking for a delayed expiration notification", async () => { const b = await reserveBooking(parseBooking(input())); await settleSession(paid(b)); await settleSession(paid(b, { status: "expired", payment_status: "unpaid" })); expect((await row()).status).toBe("confirmed"); });
 });
 
 describe("HTTP boundaries", () => {
+  it("keeps webhook retries active while a conflict refund is pending", async () => {
+    const b = await reserveBooking(parseBooking(input())); const session = paid(b);
+    mocks.busy.mockResolvedValue([{ start: b.start_time.toISOString(), end: b.end_time.toISOString() }]);
+    mocks.refundCreate.mockImplementationOnce(async params => ({ id: "re_pending", status: "pending", currency: "usd", ...params }));
+    mocks.retrieve.mockResolvedValue(session);
+    const payload = JSON.stringify({ id: "evt_test", type: "checkout.session.completed", livemode: false, data: { object: session } });
+    const signature = new Stripe("sk_test_fake").webhooks.generateTestHeaderString({ payload, secret: config.STRIPE_TEST_WEBHOOK_SECRET });
+    const response = await webhook(new Request("http://localhost/api/stripe/test-webhook", { method: "POST", headers: { "stripe-signature": signature }, body: payload }));
+    expect(response.status).toBe(503); expect((await row()).status).toBe("needs_review");
+    expect((await row()).stripe_refund_id).toBe("re_pending"); expect(mocks.insert).not.toHaveBeenCalled();
+  });
   it("refuses checkout on Vercel Production even when enabled", async () => {
     vi.stubEnv("VERCEL_ENV", "production");
     const response = await checkout(new Request("http://localhost:3000/api/test-booking/checkout", { method: "POST", headers: { origin: config.TEST_CHECKOUT_ORIGIN }, body: JSON.stringify(input()) }));
