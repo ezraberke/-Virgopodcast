@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { GOOGLE_BOOKING_URL } from "../../../lib/booking-links";
+import { BOOKING_PAGE } from "../../../lib/booking-links";
 
-// Calendar is the single source of live availability; retire the old slot feed.
+// Retired clients must start again at the current website booking page.
 export function GET() {
   return NextResponse.json({
-    error: "Availability and booking have moved to Google Calendar.",
-    bookingUrl: GOOGLE_BOOKING_URL,
+    error: "This availability endpoint is retired. Please use the website booking page.",
+    bookingUrl: BOOKING_PAGE,
   }, { status: 410, headers: { "Cache-Control": "no-store" } });
 }

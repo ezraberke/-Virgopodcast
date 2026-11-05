@@ -1,31 +1,38 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Footer, Header } from "../site-chrome";
 import { bookingEmail, STUDIO_EMAIL } from "../../lib/contact";
-import { GOOGLE_BOOKING_URL } from "../../lib/booking-links";
+import { BOOKING_PACKAGES, formatPrice } from "../../lib/booking-config";
+import { CANCELLATION_POLICY } from "../../lib/booking-policy";
+import { testBookingEnabled } from "../../lib/test-booking/config";
+import TestBookingPage from "./test/page";
 
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Book a Session | VIRGO Podcast Studio",
-  description: "Choose an available one-hour recording session in Google Calendar. Pay on site on the day of your session. Contact Ezra for longer recordings.",
+  description: "Choose your podcast recording package and full session length at VIRGO in Midtown Manhattan.",
 };
 
 export default function BookPage() {
-  return (
-    <><Header />
-      <main id="main-content" className="email-booking-page">
-        <section className="container email-booking-intro">
-          <p className="eyebrow">Make time for your next great conversation</p>
-          <h1>Choose your time.<br />Pay on site.</h1>
-          <p>Reserve a one-hour recording session with Google Calendar. Choose an available time, tell us your package, and receive your booking confirmation by email.</p>
-          <p className="booking-hours">Open Monday–Sunday, 9 a.m.–6 p.m. New York time. Saturday and Sunday sessions are available.</p>
-          <p className="booking-payment"><strong>Payment is due on site on the day of your session.</strong> No online payment or deposit is required.</p>
-          <div className="calendar-heading" id="calendar"><div><p className="eyebrow">Live studio availability</p><h2>Find your next session.</h2></div><a className="text-link" href={GOOGLE_BOOKING_URL} target="_blank" rel="noreferrer">Open in Google Calendar ↗</a></div>
-          <div className="calendar-frame"><iframe src={`${GOOGLE_BOOKING_URL}?gv=true`} title="Book a one-hour VIRGO Podcast Studio session with Google Calendar" width="100%" height="760" /></div>
-          <p className="calendar-help">Available times update with our calendar. Google shows the time zone beside the schedule. If the calendar doesn’t load, <a href={GOOGLE_BOOKING_URL} target="_blank" rel="noreferrer">open the booking page directly</a>.</p>
-          <div className="email-steps"><article><span>01</span><h2>Pick a time.</h2><p>The calendar shows available one-hour sessions and automatically removes times that conflict with our schedule.</p></article><article><span>02</span><h2>Choose your package.</h2><p>Enter Studio Session ($75), Ready to Publish ($125), Podcast Starter Kit ($160), or Creator Starter Kit ($160) in the booking form. For Podcast Therapy, add “Podcast Therapy” in the session-format field.</p></article><article><span>03</span><h2>Come in. Create.</h2><p>Google emails your confirmation. Meet us at 1345 Avenue of the Americas, 2nd Floor, and pay at the studio on the day.</p></article></div>
-          <aside className="longer-session"><div><p className="eyebrow">Need more recording time?</p><h2>Two hours. Half day. Full day.</h2><p>Longer sessions need a separate reservation for the full duration. Email Ezra with your preferred date, length and package to arrange yours.</p></div><a className="button button-primary" href={bookingEmail("Longer studio session")}>Arrange a longer session ↗</a></aside>
-          <p className="email-fallback">Questions about your setup? Email <a href={`mailto:${STUDIO_EMAIL}`}>{STUDIO_EMAIL}</a>.</p>
-        </section>
-      </main><Footer />
-    </>
-  );
+  if (testBookingEnabled()) return <TestBookingPage />;
+  // Safe public fallback until a separately reviewed live checkout is released.
+  // No dead Google iframe, payment session, or implied automatic reservation.
+  return <><Header /><main id="main-content" className="email-booking-page">
+    <section className="container email-booking-intro">
+      <p className="eyebrow">Make time for your next great conversation</p>
+      <h1>Let’s plan<br />your session.</h1>
+      <p>Send the studio your package, preferred date and recording length. We’ll check the calendar and confirm the full session with you.</p>
+      <p className="booking-hours">Monday–Sunday, 9 a.m.–6 p.m. New York time.</p>
+      <p className="booking-payment"><strong>A request is not a reservation until the studio confirms it.</strong> Pay on site on the day of your session.</p>
+      <div className="email-steps">{[...new Set(BOOKING_PACKAGES.map(p => p.title))].map(title => <article key={title}>
+        <h2>{title}</h2>
+        {BOOKING_PACKAGES.filter(p => p.title === title).map(p => <p key={p.id}>{p.durationLabel} — {formatPrice(p.priceCents)}</p>)}
+        <a className="text-link" href={bookingEmail(title)}>Request this package ↗</a>
+      </article>)}</div>
+      <p>Custom sets, advanced graphics and additional deliverables are quoted separately.</p>
+      <p className="calendar-help">{CANCELLATION_POLICY} <Link href="/booking-policy">Booking policy</Link></p>
+      <a className="button button-primary" href={bookingEmail()}>Contact the studio ↗</a>
+      <p className="email-fallback">Email <a href={`mailto:${STUDIO_EMAIL}`}>{STUDIO_EMAIL}</a> with any questions.</p>
+    </section>
+  </main><Footer /></>;
 }

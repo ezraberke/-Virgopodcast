@@ -79,8 +79,7 @@ export const formatPrice = (priceCents: number) =>
     priceCents / 100,
   );
 
-// Reference hours for the retired booking integration.
-// Live availability and conflicts are managed in the Google Calendar appointment schedule.
+// Shared website booking hours. Google Calendar supplies busy intervals.
 // 0 = Sunday; the studio is open seven days a week.
 export const BUSINESS_HOURS: Record<number, { open: string; close: string } | null> = {
   0: { open: "09:00", close: "18:00" },
