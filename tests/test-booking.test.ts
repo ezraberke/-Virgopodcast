@@ -60,6 +60,15 @@ describe("catalog and input integrity", () => {
 });
 
 describe("test mode barriers", () => {
+  it("reuses the complete existing Google credential pair only with explicit opt-in", () => {
+    const env: NodeJS.ProcessEnv = { ...config, NODE_ENV: "test", GOOGLE_TEST_CLIENT_EMAIL: undefined, GOOGLE_TEST_PRIVATE_KEY: undefined, GOOGLE_CLIENT_EMAIL: "existing@example.com", GOOGLE_PRIVATE_KEY: "existing\\nkey" };
+    expect(() => getTestConfig(env)).toThrow();
+    const configured = getTestConfig({ ...env, GOOGLE_TEST_USE_EXISTING_SERVICE_ACCOUNT: "true" });
+    expect(configured.clientEmail).toBe("existing@example.com");
+    expect(configured.privateKey).toBe("existing\nkey");
+    expect(() => getTestConfig({ ...env, GOOGLE_TEST_USE_EXISTING_SERVICE_ACCOUNT: "true", GOOGLE_PRIVATE_KEY: undefined, GOOGLE_TEST_PRIVATE_KEY: "other-key" })).toThrow();
+    expect(() => getTestConfig({ ...env, GOOGLE_TEST_USE_EXISTING_SERVICE_ACCOUNT: "true", GOOGLE_TEST_CALENDAR_ID: "studio@calendar" })).toThrow();
+  });
   it.each([{ VERCEL_ENV: "production" }, { STRIPE_TEST_SECRET_KEY: "sk_live_secret" }, { TEST_CHECKOUT_ENABLED: "false" }, { GOOGLE_TEST_CALENDAR_ID: "studio@calendar" }, { GOOGLE_AVAILABILITY_CALENDAR_IDS: "" }, { TEST_DATABASE_URL: "postgres://production" }, { TEST_CHECKOUT_ORIGIN: "https://virgopodcast.com" }])("refuses unsafe config %j", override => { expect(() => getTestConfig({ ...process.env, ...override })).toThrow(); });
   it("only accepts the configured origin", () => { expect(() => assertSameOrigin(new Request("http://localhost", { headers: { origin: "https://attacker.test" } }), config.TEST_CHECKOUT_ORIGIN)).toThrow(); });
   it("accepts its exact Vercel preview origin", () => { expect(getTestConfig({ ...process.env, VERCEL_ENV: "preview", VERCEL_URL: "virgo-preview.vercel.app", TEST_CHECKOUT_ORIGIN: "https://virgo-preview.vercel.app" }).origin).toBe("https://virgo-preview.vercel.app"); });
