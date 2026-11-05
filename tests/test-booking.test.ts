@@ -113,6 +113,11 @@ describe("Stripe creation and fulfillment", () => {
 });
 
 describe("HTTP boundaries", () => {
+  it("refuses checkout on Vercel Production even when enabled", async () => {
+    vi.stubEnv("VERCEL_ENV", "production");
+    const response = await checkout(new Request("http://localhost:3000/api/test-booking/checkout", { method: "POST", headers: { origin: config.TEST_CHECKOUT_ORIGIN }, body: JSON.stringify(input()) }));
+    expect(response.status).toBe(503); expect(mocks.create).not.toHaveBeenCalled();
+  });
   it("rejects malformed JSON and oversized bodies", async () => {
     for (const [body, status] of [["{", 400], ["x".repeat(17000), 413]] as const) {
       const result = await checkout(new Request("http://localhost:3000/api/test-booking/checkout", { method: "POST", headers: { origin: config.TEST_CHECKOUT_ORIGIN }, body })); expect(result.status).toBe(status);

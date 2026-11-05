@@ -80,6 +80,6 @@ export function TestBookingForm({ today, lastDate }: { today: string; lastDate: 
       <p className="checkout-note">No real charges or customer reservations. Use Stripe test payment details only.</p>
     </form>
   </div><aside className="booking-summary"><p className="eyebrow light">Your test session</p><h3>{selected.title}</h3><dl>
-    <div><dt>Duration</dt><dd>{selected.durationLabel} · {selected.durationMinutes / 60} hours</dd></div><div><dt>Date</dt><dd>{date}</dd></div><div><dt>New York time</dt><dd>{slot ? timeLabel(slot) : "Choose a time"}</dd></div><div><dt>Total</dt><dd>{formatPrice(selected.priceCents)}</dd></div>
+    <div><dt>Duration</dt><dd>{selected.durationLabel}{selected.durationMinutes >= 240 ? ` · ${selected.durationMinutes / 60} hours` : ""}</dd></div><div><dt>Date</dt><dd>{date}</dd></div><div><dt>New York time</dt><dd>{slot ? timeLabel(slot) : "Choose a time"}</dd></div><div><dt>Total</dt><dd>{formatPrice(selected.priceCents)}</dd></div>
   </dl><p>Payment and calendar confirmation are checked before a test booking is marked complete.</p></aside></div></section>;
 }
