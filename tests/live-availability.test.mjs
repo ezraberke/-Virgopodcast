@@ -25,4 +25,13 @@ assert.equal(openWindows('2026-12-01T23:00:00-05:00','2026-12-02T07:00:00-05:00'
 Settings.defaultZone='Asia/Tokyo';
 const displayed=DateTime.fromISO('2026-12-01T09:00:00-05:00').setZone('America/New_York');assert.equal(displayed.toFormat('h:mm a'),'9:00 AM');
 Settings.defaultZone='system';
-console.log('18 live availability safety assertions passed');
+const awayRule={...conservative,awayEvening:['away','away-series']};
+const away=eventWindows([event('away','2026-12-01T18:00:00-05:00','2026-12-01T19:30:00-05:00')],awayRule)[0];assert.match(away.start,/17:30/);assert.equal(away.end,'2026-12-02T00:00:00.000-05:00');
+const moved=eventWindows([event('away','2026-12-03T20:00:00-05:00','2026-12-03T21:00:00-05:00')],awayRule)[0];assert.equal(moved.end,'2026-12-04T00:00:00.000-05:00');
+assert.equal(eventWindows([event('away','2026-12-01T18:00:00-05:00','2026-12-01T19:30:00-05:00',{status:'cancelled'})],awayRule).length,0);
+const home=eventWindows([event('home','2026-12-01T18:00:00-05:00','2026-12-01T19:30:00-05:00')],awayRule)[0];assert.match(home.end,/20:00/);
+const dstAway=eventWindows([event('away','2027-03-14T01:30:00-05:00','2027-03-14T03:30:00-04:00')],awayRule)[0];assert.equal(dstAway.end,'2027-03-15T00:00:00.000-04:00');
+const cross=eventWindows([event('away','2026-12-01T23:00:00-05:00','2026-12-02T01:00:00-05:00')],awayRule)[0];assert.equal(cross.end,'2026-12-02T01:30:00.000-05:00');
+assert.deepEqual(openWindows('2026-12-01T18:00:00-05:00','2026-12-02T00:00:00-05:00',[away,...eventWindows([event('online_2','2026-12-01T20:00:00-05:00','2026-12-01T21:00:00-05:00',{recurringEventId:'online'})],awayRule)]),[]);
+const seriesAway=eventWindows([event('new-occurrence','2026-12-01T18:00:00-05:00','2026-12-01T19:00:00-05:00',{recurringEventId:'away-series'})],awayRule)[0];assert.equal(seriesAway.end,away.end);
+console.log('27 live availability safety assertions passed');

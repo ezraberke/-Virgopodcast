@@ -15,3 +15,5 @@ Only read-only Google scopes. Public JSON contains only time ranges, zone, and f
 Before publishing: verify runtime access for ALL configured calendars; inspect known online-class/trip overlaps, recurring changed times, buffers, bookings and extra blocks; test desktop/mobile navigation and request form integration. Source calendars must stay accurate. Review config horizon and new obligations as needed.
 
 Local tests: node tests/live-availability.test.mjs; npx tsc --noEmit; npm run build.
+
+Optional awayEvening exact event/series identifiers block from 30 minutes before the actual current start through the following New York midnight, or event end plus30 minutes if later. Canceled events remain ignored; moved occurrences follow their current timing. This does not classify by title/location and does not affect home events. Explicit away identifiers also override transparent/free status.
