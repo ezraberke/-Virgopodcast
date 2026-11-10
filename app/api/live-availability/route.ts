@@ -32,6 +32,7 @@ export async function GET(request:NextRequest) {
       } else {
         const rule=source.rule;
         if(!rule||![rule.ignore,rule.buffer,rule.forceBusy].every(a=>Array.isArray(a)&&a.every(id=>typeof id==="string")))throw new Error("Missing rules");
+        if(rule.awayEvening !== undefined && (!Array.isArray(rule.awayEvening) || !rule.awayEvening.every(id=>typeof id === "string"))) throw new Error("Invalid away rule");
         let pageToken:string|undefined; let pages=0;
         do {
           const response=await calendar.events.list({calendarId:source.id,timeMin:queryStart.toISO()!,timeMax:queryEnd.toISO()!,singleEvents:true,showDeleted:false,maxResults:2500,pageToken,fields:"nextPageToken,items(id,recurringEventId,status,transparency,start,end)"},{timeout:10000});
