@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {DateTime, Settings} from 'luxon';
 import {eventWindows,openWindows} from '../lib/live-availability.ts';
 const rule={ignore:['online'],buffer:['school'],forceBusy:['flight']};
 const event=(id,start,end,extra={})=>({id,start:{dateTime:start},end:{dateTime:end},...extra});
@@ -21,4 +22,7 @@ assert.equal(eventWindows([event('online_x','2026-12-01T09:00:00-05:00','2026-12
 const allDay=eventWindows([{id:'all',start:{date:'2027-03-14'},end:{date:'2027-03-15'}}],conservative)[0];assert.equal((Date.parse(allDay.end)-Date.parse(allDay.start))/3600000,23);
 const overnight=openWindows('2026-12-01T20:00:00-05:00','2026-12-02T12:00:00-05:00',[])[0];assert.ok(Date.parse(overnight.end)-Date.parse(overnight.start)>=8*3600000);
 assert.equal(openWindows('2026-12-01T23:00:00-05:00','2026-12-02T07:00:00-05:00',[{start:'2026-12-02T04:00:00Z',end:'2026-12-02T12:00:00Z'}]).length,0);
-console.log('17 live availability safety assertions passed');
+Settings.defaultZone='Asia/Tokyo';
+const displayed=DateTime.fromISO('2026-12-01T09:00:00-05:00').setZone('America/New_York');assert.equal(displayed.toFormat('h:mm a'),'9:00 AM');
+Settings.defaultZone='system';
+console.log('18 live availability safety assertions passed');
