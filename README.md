@@ -4,11 +4,9 @@ Next.js website deployed to Vercel from the connected GitHub repository.
 
 ## Booking
 
-Primary booking links lead to `/book`, which embeds the public Google Calendar appointment page configured in `lib/booking-links.ts`. The Google schedule offers one-hour sessions, Monday–Sunday 9am–6pm (including Saturday and Sunday) in America/New_York, with a 30-minute buffer between appointments, a two-hour minimum lead time and a 60-day booking window. Its primary calendar availability check is enabled. The optional session-format field lets customers identify Podcast Therapy sessions. Google manages reservations and customer confirmations; private event details are not embedded in the website.
+Primary booking links lead to `/book`. This interim page collects a preferred date, time (America/New_York), length and package, then prepares an email request to the existing studio inbox. It does not submit a reservation, collect payments, or claim live availability. Clients must send the email and receive confirmation from Ezra. Any time of day may be requested; this does not promise that the studio is open or staffed at every hour.
 
-The Google account currently allows only one appointment schedule. Two-hour, half-day and full-day reservations are clearly offered by email to ezraberke@virgopodcast.com. All sessions are paid on site on the day. No online payment or deposit is collected.
-
-Basketball practices and Ramaz games must be marked Busy on the checked calendar to block appointments. Events marked Free do not block time. Games with unknown times need their all-day status handled before opening those dates. Future schedule changes should be made in Google Calendar, not hardcoded into the website.
+The former Google appointment link was reported broken. Keep it out of the customer flow until a replacement schedule has been verified with the correct conflict calendars, online-class exceptions and travel buffers. Private event details must never appear in public availability responses. All sessions remain paid on site on the day, with no online payment or deposit collected by this flow.
 
 The former checkout and availability APIs return HTTP 410 so cached clients cannot create payments or use obsolete availability. Historical success/cancel URLs redirect to `/book`. The signed Stripe webhook and its database/calendar integration remain only for payments already initiated before checkout was retired. No current website flow creates a new Stripe session.
 
