@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { google } from "googleapis";
 import { DateTime } from "luxon";
-import { eventWindows, openWindows, ZONE, type Rule, type Window } from "../../../lib/live-availability";
+import { openWindows, ZONE, type Window } from "../../../lib/live-availability";
+import { eventWindows, type Rule } from "../../../lib/calendar-blockers";
 export const dynamic="force-dynamic";
 export const runtime="nodejs";
 const headers={"Cache-Control":"no-store"};
@@ -34,7 +35,7 @@ export async function GET(request:NextRequest) {
         if(!rule||![rule.ignore,rule.buffer,rule.forceBusy].every(a=>Array.isArray(a)&&a.every(id=>typeof id==="string")))throw new Error("Missing rules");
         let pageToken:string|undefined; let pages=0;
         do {
-          const response=await calendar.events.list({calendarId:source.id,timeMin:queryStart.toISO()!,timeMax:queryEnd.toISO()!,singleEvents:true,showDeleted:false,maxResults:2500,pageToken,fields:"nextPageToken,items(id,recurringEventId,status,transparency,start,end)"},{timeout:10000});
+          const response=await calendar.events.list({calendarId:source.id,timeMin:queryStart.toISO()!,timeMax:queryEnd.toISO()!,singleEvents:true,showDeleted:false,maxResults:2500,pageToken,fields:"nextPageToken,items(id,recurringEventId,status,transparency,start,end,summary,location)"},{timeout:10000});
           if(!Array.isArray(response.data.items))throw new Error("Calendar unavailable");
           busy.push(...eventWindows(response.data.items,rule));pageToken=response.data.nextPageToken||undefined;
           if(++pages>20)throw new Error("Calendar limit");
