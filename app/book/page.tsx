@@ -14,8 +14,8 @@ export default function BookPage() {
       <main id="main-content" className="email-booking-page">
         <section className="container email-booking-intro">
           <p className="eyebrow">Make time for your next great conversation</p>
-          <h1>Request your time.<br />Pay on site.</h1>
-          <p>Tell us when you’d like to record and which package you have in mind. Ezra will confirm availability and session details by email.</p>
+          <h1>See the openings.<br />Plan your session.</h1>
+          <p>See open recording windows months ahead, then choose a time and package. Ezra will confirm your reservation and session details by email.</p>
           <p className="booking-hours">Request a time Monday–Sunday, including evenings and weekends. All requested times are in New York time and subject to confirmation.</p>
           <p className="booking-payment"><strong>Payment is due on site on the day of your session.</strong> No online payment or deposit is required.</p>
           <RequestTime />

@@ -1,10 +1,13 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, useRef, type FormEvent } from "react";
 import { PUBLIC_BOOKING_URL, newYorkDateTime, isPastRequest } from "../../lib/booking-request";
 import { STUDIO_EMAIL } from "../../lib/contact";
 
+import LiveCalendar from "./live-calendar";
+
 export default function RequestTime() {
+  const formRef = useRef<HTMLFormElement>(null);
   const [draft, setDraft] = useState("");
   const [requestText, setRequestText] = useState("");
   const [requestCopied, setRequestCopied] = useState(false);
@@ -52,13 +55,15 @@ export default function RequestTime() {
   }
 
   return (
+    <>
+    <LiveCalendar onSelect={(date,time,duration)=>{ const form=formRef.current; if(!form)return; (form.elements.namedItem("date") as HTMLInputElement).value=date; (form.elements.namedItem("time") as HTMLInputElement).value=time; (form.elements.namedItem("duration") as HTMLSelectElement).value=duration;setDraft("");setDateError("");}} />
     <section className="time-request" aria-labelledby="request-title">
       <div className="time-request-heading">
         <div><p className="eyebrow">Plan your recording</p><h2 id="request-title">Request a time.</h2></div>
         <button className="button" type="button" onClick={copyLink}>{copied ? "Link copied" : "Copy booking link"}</button>
       </div>
-      <p id="request-help">You can request any time of day, seven days a week. This form does not show live availability. Ezra will confirm whether your requested time is available before your reservation is booked.</p>
-      <form onSubmit={prepareRequest} onChange={() => { setDraft(""); setDateError(""); }} aria-describedby="request-help">
+      <p id="request-help">Choose an open start time above, or enter a preferred time below. Availability can change. Ezra will confirm the full session before your reservation is booked.</p>
+      <form ref={formRef} onSubmit={prepareRequest} onChange={() => { setDraft(""); setDateError(""); }} aria-describedby="request-help">
         <div className="time-request-grid">
           <label>Preferred date<input name="date" type="date" required onFocus={(event) => { event.currentTarget.min = newYorkDateTime().slice(0, 10); }} /></label>
           <label>Start time <span>(New York time)</span><input name="time" type="time" required step="900" /></label>
@@ -74,5 +79,6 @@ export default function RequestTime() {
         {copyError && <p>Copy this link to share: <a href={PUBLIC_BOOKING_URL}>{PUBLIC_BOOKING_URL}</a></p>}
       </div>
     </section>
+    </>
   );
 }

@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {eventWindows,openWindows} from '../lib/live-availability.ts';
+const rule={ignore:['online'],buffer:['school'],forceBusy:['flight']};
+const event=(id,start,end,extra={})=>({id,start:{dateTime:start},end:{dateTime:end},...extra});
+const events=[event('online_1','2026-11-20T11:00:00-05:00','2026-11-20T13:30:00-05:00',{recurringEventId:'online'}),event('trip','2026-11-19T22:00:00-05:00','2026-11-21T22:00:00-05:00')];
+assert.equal(eventWindows(events,rule).length,1,'only exact online event removed');
+assert.deepEqual(openWindows('2026-11-20T00:00:00-05:00','2026-11-21T00:00:00-05:00',eventWindows(events,rule)),[],'trip remains blocked over online class');
+const buffered=eventWindows([event('changed','2026-12-17T18:00:00-05:00','2026-12-17T19:00:00-05:00',{recurringEventId:'school'})],rule);
+assert.match(buffered[0].start,/17:30/);assert.match(buffered[0].end,/19:30/);
+assert.equal(eventWindows([event('c','2026-11-20T11:00:00-05:00','2026-11-20T12:00:00-05:00',{status:'cancelled'})],rule).length,0);
+assert.equal(eventWindows([event('free','2026-11-20T11:00:00-05:00','2026-11-20T12:00:00-05:00',{transparency:'transparent'})],rule).length,0);
+assert.equal(eventWindows([event('flight','2026-11-20T11:00:00-05:00','2026-11-20T12:00:00-05:00',{transparency:'transparent'})],rule).length,1);
+assert.throws(()=>eventWindows([{id:'bad',start:{dateTime:'bad'}}],rule));
+assert.throws(()=>openWindows('2026-11-20T00:00:00-05:00','2026-11-21T00:00:00-05:00',[{start:'bad',end:'bad'}]));
+assert.deepEqual(openWindows('2026-11-20T00:00:00-05:00','2026-11-20T04:00:00-05:00',[{start:'2026-11-20T01:00:00-05:00',end:'2026-11-20T02:00:00-05:00'},{start:'2026-11-20T01:30:00-05:00',end:'2026-11-20T03:00:00-05:00'}]).map(w=>[w.start.slice(11,16),w.end.slice(11,16)]),[['00:00','01:00'],['03:00','04:00']]);
+const dst=eventWindows([{id:'all',start:{date:'2027-03-14'},end:{date:'2027-03-15'}}],rule)[0];assert.equal((Date.parse(dst.end)-Date.parse(dst.start))/3600000,23);
+console.log('10 live availability safety assertions passed');
