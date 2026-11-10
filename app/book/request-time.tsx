@@ -65,12 +65,12 @@ export default function RequestTime() {
           <label>Session length<select name="duration" required defaultValue="1 hour"><option>1 hour</option><option>90 minutes</option><option>2 hours</option><option>3 hours</option><option>Half day</option><option>Full day</option><option>Other — let’s discuss</option></select></label>
           <label>Package<select name="package" required defaultValue="Studio Session"><option>Studio Session</option><option>Ready to Publish</option><option>Podcast Starter Kit</option><option>Creator Starter Kit</option><option>Podcast Therapy</option><option>Help me choose</option></select></label>
         </div>
-        <button className="button button-primary" type="submit">Prepare email request ↗</button>
+        <button className="button button-primary" type="submit">Prepare email request</button>
         <p className="request-note">No reservation or payment is made here. You will review and send the request from your email app.</p>
       </form>
       <div aria-live="polite">
         {dateError && <p role="alert">{dateError}</p>}
-        {draft && <div className="request-ready"><p>Your request is ready. <a href={draft}>Open your email draft ↗</a> and send it to Ezra.</p><p>No email app? Copy the request below and send it from your usual email service to <a href={`mailto:${STUDIO_EMAIL}`}>{STUDIO_EMAIL}</a>.</p><button type="button" className="button" onClick={copyRequest}>{requestCopied ? "Request copied" : "Copy request text"}</button><label>Request text<textarea readOnly rows={12} value={requestText} onFocus={(event) => event.currentTarget.select()} /></label>{requestCopyError && <p>Automatic copying was unavailable. Select and copy the request text above.</p>}</div>}
+        {draft && <div className="request-ready"><p>Your request is ready. <a href={draft}>Open your email draft</a> and send it to Ezra.</p><p>No email app? Copy the request below and send it from your usual email service to <a href={`mailto:${STUDIO_EMAIL}`}>{STUDIO_EMAIL}</a>.</p><button type="button" className="button" onClick={copyRequest}>{requestCopied ? "Request copied" : "Copy request text"}</button><label>Request text<textarea readOnly rows={12} value={requestText} onFocus={(event) => event.currentTarget.select()} /></label>{requestCopyError && <p>Automatic copying was unavailable. Select and copy the request text above.</p>}</div>}
         {copyError && <p>Copy this link to share: <a href={PUBLIC_BOOKING_URL}>{PUBLIC_BOOKING_URL}</a></p>}
       </div>
     </section>
